@@ -352,8 +352,9 @@
 
     <!-- Firebase SDK Scripts -->
     <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // Import Firebase modules (updated to v12.4.0)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
         import { 
             getAuth, 
             signInWithEmailAndPassword, 
@@ -362,7 +363,7 @@
             onAuthStateChanged,
             signInWithCustomToken,
             signInAnonymously
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
         import { 
             getFirestore, 
             doc, 
@@ -376,25 +377,37 @@
             query, 
             where,
             serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-        // --- Firebase Configuration ---
-        // DO NOT EDIT: This config is automatically provided by the environment.
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-school-app';
+        // --- Firebase Configuration (from user) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsnn_KyOnLU-yIDy6Kyx2Z9Am4oBSs5fA",
+            authDomain: "possible-flag-474407-v4.firebaseapp.com",
+            projectId: "possible-flag-474407-v4",
+            storageBucket: "possible-flag-474407-v4.firebasestorage.app",
+            messagingSenderId: "186021699297",
+            appId: "1:186021699297:web:af2500edd979c4f6d6a1a0",
+            measurementId: "G-BBM7TQQYCR"
+        };
+        
+        // Use the appId from the user's config
+        const appId = firebaseConfig.appId; 
 
-        let app, auth, db, reportCollectionPath, eventCollectionPath, admissionCollectionPath;
+        let app, auth, db, analytics, reportCollectionPath, eventCollectionPath, admissionCollectionPath;
         let homeEventsUnsubscribe = null;
         let adminEventsUnsubscribe = null;
         let adminInquiriesUnsubscribe = null;
         let eventDataCache = new Map();
         
         try {
-            app = initializeApp(firebaseConfig);
+            // Initialize Firebase
+            app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = getFirestore(app);
+            analytics = getAnalytics(app);
             
             // Define collection paths using the appId
+            // NOTE: You may need to adjust your Firestore security rules for this path
             reportCollectionPath = `artifacts/${appId}/public/data/reports`;
             eventCollectionPath = `artifacts/${appId}/public/data/events`;
             admissionCollectionPath = `artifacts/${appId}/public/data/admissionsInquiries`;
@@ -408,18 +421,12 @@
         const pages = ['home', 'staff-login', 'admissions', 'staff-portal-home', 'teacher-dashboard', 'admin-dashboard'];
         let currentPage = 'home';
         
-        // Expose auth initialization to window
-        document.initializeAuth = initializeAuth;
-
         // --- Auth State ---
         async function initializeAuth() {
             try {
-                // DO NOT EDIT: Auth token is automatically provided by the environment.
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // With a standard API key, we sign in anonymously for public access
+                // This allows public users (students, parents) to read public data
+                await signInAnonymously(auth);
             } catch (error) {
                 console.error("Error during initial sign-in:", error);
             }
@@ -939,7 +946,7 @@
         
         // --- Event Listeners Setup ---
         window.onload = () => {
-            document.initializeAuth();
+            initializeAuth(); // Call auth initialization directly
 
             // Nav links
             document.getElementById('nav-home').addEventListener('click', () => showPage('home'));
@@ -986,4 +993,5 @@
     </script>
 </body>
 </html>
+
 
