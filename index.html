@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond English School</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .page-section {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100">
+
+    <!-- Global Message Box (Mobile-first) -->
+    <div id="message-box" class="hidden fixed top-4 inset-x-4 p-4 rounded-md shadow-lg z-50 md:top-5 md:inset-x-auto md:right-5 md:max-w-sm">
+        <span id="message-content"></span>
+        <button id="close-message" class="ml-4 text-lg font-bold">&times;</button>
+    </div>
+
+    <!-- ===== Header / Navigation ===== -->
+    <nav class="bg-gray-800 text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <div class="text-xl sm:text-2xl font-bold flex items-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7 mr-2 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path> <!-- Using a simple cross for 'Diamond' placeholder, can be replaced -->
+                </svg>
+                Diamond English School
+            </div>
+            <div class="flex text-sm sm:text-base space-x-3 sm:space-x-4 items-center">
+                <button id="nav-home" class="hover:text-blue-300">Home</button>
+                <button id="nav-admissions" class="hover:text-blue-300">Admissions</button>
+                <!-- Staff Portal link removed from header -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== Main Content Area ===== -->
+    <main class="flex-grow container mx-auto p-4 sm:p-6">
+ 
+        <!-- ===== Home Page (now includes Student Portal) ===== -->
+        <section id="home" class="page-section max-w-4xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+
+                <!-- Admissions Open Banner -->
+                <div class="bg-blue-600 text-white p-6 md:p-8 rounded-lg shadow-lg text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2">Admissions Open for 2026</h2>
+                    <p class="text-blue-100 text-base md:text-lg mb-6">Join the Diamond English School family. Inquiry forms are now available online.</p>
+                    <button id="cta-admissions" class="bg-white text-blue-700 font-semibold py-3 px-6 rounded-lg shadow hover:bg-gray-100 transition duration-300">
+                        Apply Now
+                    </button>
+                </div>
+
+                <!-- Student Progress Center Section -->
+                <hr class="my-8 md:my-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Student Progress Center</h2>
+                <form id="student-report-form" class="max-w-xl mx-auto">
+                    <label for="check-student-id" class="block text-sm font-medium text-gray-700">Enter Your Student ID to check your progress</label>
+                    <div class="mt-2 flex flex-col sm:flex-row rounded-md shadow-sm">
+                        <input type="text" id="check-student-id" class="flex-1 block w-full rounded-md sm:rounded-none sm:rounded-l-md border-gray-300 p-3" placeholder="e.g., S1001">
+                        <button type="submit" class="w-full mt-2 sm:mt-0 sm:w-auto inline-flex items-center justify-center px-4 py-3 border border-l-0 border-gray-300 rounded-md sm:rounded-none sm:rounded-r-md bg-blue-600 text-white hover:bg-blue-700">
+                            Check
+                        </button>
+                    </div>
+                </form>
+                <div id="student-report-result" class="mt-6 max-w-xl mx-auto">
+                    <!-- Student report will be displayed here -->
+                </div>
+
+                <!-- Events & News Section -->
+                <hr class="my-8 md:my-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Events & News</h2>
+                <div id="event-list-home" class="space-y-4">
+                    <!-- Public event list will be loaded here -->
+                    <p class="text-gray-500 text-center">Loading upcoming events...</p>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- ===== Staff Login Page ===== -->
+        <section id="staff-login" class="page-section hidden max-w-md mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 text-center">Staff Portal</h2>
+                
+                <!-- Login Form -->
+                <form id="staff-login-form" class="space-y-4">
+                    <h3 class="font-semibold text-lg">Login</h3>
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="login-email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="login-password" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <button type="submit" class="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                        Sign In
+                    </button>
+                </form>
+
+                <hr class="my-8">
+
+                <!-- Register Form -->
+                <form id="staff-register-form" class="space-y-4">
+                    <h3 class="font-semibold text-lg">Register (New Staff)</h3>
+                    <div>
+                        <label for="register-email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="register-email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label for="register-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="register-password" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm" placeholder="Min. 6 characters">
+                    </div>
+                    <button type="submit" class="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                        Register
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ===== New Admissions Page ===== -->
+        <section id="admissions" class="page-section hidden max-w-4xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Online Admission Inquiry</h2>
+                <p class="text-gray-600 mb-6">Please fill out the form below to begin the admission process. Our team will review your inquiry and contact you with the next steps.</p>
+                <form id="admission-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="admission-parent-name" class="block text-sm font-medium text-gray-700">Parent/Guardian Name</label>
+                            <input type="text" id="admission-parent-name" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="admission-student-class" class="block text-sm font-medium text-gray-700">Applying for Class</label>
+                            <input type="text" id="admission-student-class" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., Nursery, Class 6">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="admission-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" id="admission-email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="admission-phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="tel" id="admission-phone" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="admission-message" class="block text-sm font-medium text-gray-700">Message (Optional)</label>
+                        <textarea id="admission-message" rows="4" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm" placeholder="Any specific questions?"></textarea>
+</div>
+                    <div class="text-right">
+                        <button type="submit" class="inline-flex justify-center py-3 px-8 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                            Submit Inquiry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ===== NEW Staff Portal Home Page ===== -->
+        <section id="staff-portal-home" class="page-section hidden max-w-xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">Staff Portal</h2>
+                    <button class="logout-button text-sm text-red-600 hover:underline">Logout</button>
+                </div>
+                <p class="mb-4">Logged in as: <strong id="staff-email-display-portal" class="text-blue-600"></strong></p>
+                <div class="space-y-4 mt-6">
+                    <button id="nav-teacher-dash" class="w-full text-left p-6 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg shadow-sm transition">
+                        <h3 class="text-lg font-semibold text-blue-800">Teacher Dashboard</h3>
+                        <p class="text-blue-700">Manage student progress reports.</p>
+                    </button>
+                    <button id="nav-admin-dash" class="w-full text-left p-6 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg shadow-sm transition">
+                        <h3 class="text-lg font-semibold text-green-800">Admin Dashboard</h3>
+                        <p class="text-green-700">Manage website events and admission inquiries.</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===== Teacher (Report) Dashboard Page ===== -->
+        <section id="teacher-dashboard" class="page-section hidden max-w-5xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">Teacher Dashboard</h2>
+                    <div>
+                        <button class="back-to-portal-button text-sm text-blue-600 hover:underline mr-4">&larr; Back to Portal</button>
+                        <button class="logout-button text-sm text-red-600 hover:underline">Logout</button>
+                    </div>
+                </div>
+                <p class="mb-6">Logged in as: <strong id="staff-email-display" class="text-blue-600"></strong></p>
+                
+                <!-- Report Editor Section -->
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Student Report Editor</h3>
+                <div class="flex flex-col sm:flex-row sm:items-end sm:space-x-2 mb-4">
+                    <div class="flex-grow w-full">
+                        <label for="fetch-student-id" class="block text-sm font-medium text-gray-700">Enter Student ID to Fetch/Edit</label>
+                        <input type="text" id="fetch-student-id" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., S1001">
+                    </div>
+                    <button id="fetch-report-btn" class="w-full mt-2 sm:mt-0 sm:w-auto py-3 px-5 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700">Fetch</button>
+                </div>
+
+                <form id="report-editor-form" class="space-y-4 p-6 border border-gray-200 rounded-lg bg-gray-50">
+                    <input type="hidden" id="report-doc-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="edit-student-id" class="block text-sm font-medium text-gray-700">Student ID</label>
+                            <input type="text" id="edit-student-id" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="edit-student-name" class="block text-sm font-medium text-gray-700">Student Name</label>
+                            <input type="text" id="edit-student-name" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="edit-student-class" class="block text-sm font-medium text-gray-700">Class</label>
+                        <input type="text" id="edit-student-class" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., Class 10, Section A">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="edit-marks-english" class="block text-sm font-medium text-gray-700">English Marks</label>
+                            <input type="number" id="edit-marks-english" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="edit-marks-math" class="block text-sm font-medium text-gray-700">Math Marks</label>
+                            <input type="number" id="edit-marks-math" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="edit-marks-science" class="block text-sm font-medium text-gray-700">Science Marks</label>
+                            <input type="number" id="edit-marks-science" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="edit-teacher-remarks" class="block text-sm font-medium text-gray-700">Teacher's Remarks</label>
+                        <textarea id="edit-teacher-remarks" rows="3" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                        Save Report
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ===== NEW Admin Dashboard Page ===== -->
+        <section id="admin-dashboard" class="page-section hidden max-w-5xl mx-auto">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800">Admin Dashboard</h2>
+                    <div>
+                        <button class="back-to-portal-button text-sm text-blue-600 hover:underline mr-4">&larr; Back to Portal</button>
+                        <button class="logout-button text-sm text-red-600 hover:underline">Logout</button>
+                    </div>
+                </div>
+                <p class="mb-6">Logged in as: <strong id="staff-email-display-admin" class="text-blue-600"></strong></p>
+
+                <!-- Event Management Section -->
+                <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Event Management</h2>
+                
+                <form id="event-editor-form" class="space-y-4 p-6 border border-gray-200 rounded-lg bg-gray-50 mb-8">
+                    <input type="hidden" id="event-doc-id">
+                    <div>
+                        <label for="edit-event-title" class="block text-sm font-medium text-gray-700">Event Title</label>
+                        <input type="text" id="edit-event-title" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="edit-event-date" class="block text-sm font-medium text-gray-700">Event Date</label>
+                            <input type="date" id="edit-event-date" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label for="edit-event-location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <input type="text" id="edit-event-location" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm" placeholder="e.g., School Auditorium">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="edit-event-description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="edit-event-description" rows="3" class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm"></textarea>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:space-x-2">
+                         <button type="submit" class="flex-1 py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                            Save Event
+                        </button>
+                        <button type="button" id="clear-event-form-btn" class="flex-1 mt-2 sm:mt-0 py-3 px-4 border border-gray-300 rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50">
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+
+                <h3 class="text-xl font-semibold text-gray-700 mt-8 mb-4">Current Events</h3>
+                <div id="event-list-admin" class="space-y-3">
+                    <!-- Admin event list will be loaded here -->
+                    <p class="text-gray-500">Loading events list...</p>
+                </div>
+                
+                <!-- Admission Inquiries Section -->
+                <hr class="my-10 border-t-2 border-gray-200">
+                <div id="inquiry-management" class="mt-8">
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">Admission Inquiries</h2>
+                    <div id="inquiry-list-admin" class="space-y-4">
+                        <!-- Admin inquiry list will be loaded here -->
+                        <p class="text-gray-500">Loading admission inquiries...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+    </main>
+
+    <!-- ===== Contact CTA (Moved from footer) ===== -->
+    <div class="bg-white mt-8">
+        <div class="container mx-auto px-6 py-12 md:py-16 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Have Questions?</h2>
+            <p class="text-gray-600 mb-8">Get in touch with us directly for a quick response.</p>
+            <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 justify-center">
+                <a href="https://wa.me/919851339691" target="_blank" rel="noopener noreferrer" class="inline-block bg-green-500 text-white font-bold py-4 px-10 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 transform hover:-translate-y-0.5">
+                    Contact on WhatsApp
+                </a>
+                <a href="tel:+919851339691" class="inline-block bg-white text-blue-600 font-bold py-4 px-10 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 transform hover:-translate-y-0.5 border border-gray-300">
+                    Call Principal (+91 9851339691)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer class="bg-gray-800 text-gray-300 shadow-inner mt-4">
+        <div class="container mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center text-sm">
+            <!-- Left Side: Copyright -->
+            <div class="mb-2 md:mb-0 text-center md:text-left">
+                &copy; 2025 Diamond English School. All rights reserved.
+            </div>
+            
+            <!-- Right Side: Links & Credit -->
+            <div class="flex items-center space-x-4 flex-wrap justify-center">
+                <!-- Staff portal link is now always visible in footer -->
+                <button id="footer-staff-portal" class="hover:text-blue-300 hover:underline mt-2 md:mt-0">Staff Portal</button>
+                <span class="border-l border-gray-600 h-4 hidden md:inline-block"></span>
+                <span class="mt-2 md:mt-0">Managed by Artevia Studio</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK Scripts -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            createUserWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged,
+            signInWithCustomToken,
+            signInAnonymously
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc, 
+            setDoc, 
+            addDoc,
+            updateDoc, 
+            deleteDoc, 
+            onSnapshot, 
+            collection, 
+            query, 
+            where,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        // DO NOT EDIT: This config is automatically provided by the environment.
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-school-app';
+
+        let app, auth, db, reportCollectionPath, eventCollectionPath, admissionCollectionPath;
+        let homeEventsUnsubscribe = null;
+        let adminEventsUnsubscribe = null;
+        let adminInquiriesUnsubscribe = null;
+        let eventDataCache = new Map();
+        
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            
+            // Define collection paths using the appId
+            reportCollectionPath = `artifacts/${appId}/public/data/reports`;
+            eventCollectionPath = `artifacts/${appId}/public/data/events`;
+            admissionCollectionPath = `artifacts/${appId}/public/data/admissionsInquiries`;
+
+        } catch (e) {
+            console.error("Error initializing Firebase:", e);
+            showMessage("Could not connect to services. Please refresh.", "error");
+        }
+
+        // --- Page Navigation State ---
+        const pages = ['home', 'staff-login', 'admissions', 'staff-portal-home', 'teacher-dashboard', 'admin-dashboard'];
+        let currentPage = 'home';
+        
+        // Expose auth initialization to window
+        document.initializeAuth = initializeAuth;
+
+        // --- Auth State ---
+        async function initializeAuth() {
+            try {
+                // DO NOT EDIT: Auth token is automatically provided by the environment.
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Error during initial sign-in:", error);
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            const userId = user ? (user.isAnonymous ? crypto.randomUUID() : user.uid) : crypto.randomUUID();
+            console.log("Auth state changed. User:", user ? user.uid : "None", "Is Anonymous:", user ? user.isAnonymous : "N/A");
+
+            if (user && !user.isAnonymous) {
+                // Staff is logged in
+                // No need to hide header link, it's already gone.
+                
+                // Update email displays on all dashboards
+                const emailDisplays = [
+                    document.getElementById('staff-email-display-portal'),
+                    document.getElementById('staff-email-display'),
+                    document.getElementById('staff-email-display-admin')
+                ];
+                emailDisplays.forEach(el => { if(el) el.textContent = user.email; });
+
+                if (currentPage === 'staff-login') {
+                    showPage('staff-portal-home');
+                }
+            } else {
+                // Staff is logged out (or anonymous user)
+                // No need to show header link, it's gone.
+                // Footer link is always visible.
+                
+                // Clear email displays
+                const emailDisplays = [
+                    document.getElementById('staff-email-display-portal'),
+                    document.getElementById('staff-email-display'),
+                    document.getElementById('staff-email-display-admin')
+                ];
+                emailDisplays.forEach(el => { if(el) el.textContent = 'N/A'; });
+
+                // If user was on any staff page, send to home
+                const staffPages = ['teacher-dashboard', 'admin-dashboard', 'staff-portal-home'];
+                if (staffPages.includes(currentPage)) {
+                    showPage('home');
+                }
+            }
+        });
+
+        // --- Listener Management ---
+        function detachListeners() {
+            if (homeEventsUnsubscribe) {
+                console.log("Detaching home events listener.");
+                homeEventsUnsubscribe();
+                homeEventsUnsubscribe = null;
+            }
+            if (adminEventsUnsubscribe) {
+                console.log("Detaching admin events listener.");
+                adminEventsUnsubscribe();
+                adminEventsUnsubscribe = null;
+            }
+            if (adminInquiriesUnsubscribe) {
+                console.log("Detaching admin inquiries listener.");
+                adminInquiriesUnsubscribe();
+                adminInquiriesUnsubscribe = null;
+            }
+        }
+
+        // --- Page Navigation ---
+        function showPage(pageId) {
+            if (!pages.includes(pageId)) {
+                console.error(`Page ${pageId} not found.`);
+                return;
+            }
+            
+            // Detach all real-time listeners before switching pages
+            detachListeners();
+            
+            currentPage = pageId;
+            pages.forEach(page => {
+                const el = document.getElementById(page);
+                if (el) {
+                    el.classList.toggle('hidden', page !== pageId);
+                }
+            });
+            
+            // Attach listeners needed for the *new* page
+            switch (pageId) {
+                case 'home':
+                    listenForEventsHome();
+                    break;
+                case 'admin-dashboard':
+                    listenForEventsAdmin();
+                    listenForInquiriesAdmin();
+                    break;
+                case 'teacher-dashboard':
+                    // No listeners needed for teacher report editor on page load
+                    break;
+                case 'admissions':
+                    // This page is just a form, no listeners needed
+                    break;
+                case 'staff-portal-home':
+                    // No listeners needed
+                    break;
+            }
+        }
+ 
+        // --- Staff Auth Functions ---
+        
+        async function handleStaffRegister(event) {
+            event.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                showMessage("Registration successful! You are now logged in.", "success");
+                // onAuthStateChanged will handle redirect to staff-portal-home
+            } catch (error) {
+                console.error("Registration Error:", error);
+                showMessage(error.message, "error");
+            }
+        }
+
+        async function handleStaffLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showMessage("Login successful!", "success");
+                // onAuthStateChanged will handle redirect to staff-portal-home
+            } catch (error) {
+                console.error("Login Error:", error);
+                showMessage(error.message, "error");
+            }
+        }
+
+        async function handleStaffLogout() {
+            try {
+                await signOut(auth);
+                await initializeAuth(); // Re-sign-in anonymously
+                showMessage("You have been logged out.", "info");
+                // onAuthStateChanged will handle redirect to home
+            } catch (error)
+{
+                console.error("Logout Error:", error);
+                showMessage(error.message, "error");
+            }
+        }
+        
+        // --- Student Portal: Check Report ---
+        
+        async function checkStudentReport(event) {
+            event.preventDefault();
+            const studentId = document.getElementById('check-student-id').value.trim();
+            const resultDiv = document.getElementById('student-report-result');
+            
+            if (!studentId) {
+                resultDiv.innerHTML = '<p class="text-red-500">Please enter a Student ID.</p>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<p class="text-gray-500">Fetching report...</p>';
+            
+            try {
+                // Student ID is used as the document ID
+                const reportRef = doc(db, reportCollectionPath, studentId);
+                const docSnap = await getDoc(reportRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    resultDiv.innerHTML = `
+                        <div class="bg-gray-50 p-4 sm:p-6 rounded-lg border border-gray-200 shadow-sm">
+                            <h3 class="text-xl font-semibold text-gray-800">${data.name}</h3>
+                            <p class="text-sm text-gray-500 mb-4">ID: ${data.id} | Class: ${data.class}</p>
+                            <ul class="space-y-2">
+                                <li class="flex justify-between"><strong>English:</strong> <span>${data.marksEnglish || 'N/A'}</span></li>
+                                <li class="flex justify-between"><strong>Math:</strong> <span>${data.marksMath || 'N/A'}</span></li>
+                                <li class="flex justify-between"><strong>Science:</strong> <span>${data.marksScience || 'N/A'}</span></li>
+                            </ul>
+                            <hr class="my-4">
+                            <p><strong>Teacher's Remarks:</strong></p>
+                            <p class="text-gray-700">${data.remarks || 'No remarks.'}</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<p class="text-orange-500">No report found for this Student ID.</p>';
+                }
+            } catch (error) {
+                console.error("Error fetching report:", error);
+                showMessage("Error fetching report: " + error.message, "error");
+                resultDiv.innerHTML = '<p class="text-red-500">An error occurred while fetching the report.</p>';
+            }
+        }
+        
+        // --- Staff Dashboard: Report Management ---
+        
+        async function handleFetchReport() {
+            const studentId = document.getElementById('fetch-student-id').value.trim();
+            if (!studentId) {
+                showMessage("Please enter a Student ID to fetch.", "error");
+                return;
+            }
+            
+            try {
+                const reportRef = doc(db, reportCollectionPath, studentId);
+                const docSnap = await getDoc(reportRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('report-doc-id').value = docSnap.id;
+                    document.getElementById('edit-student-id').value = data.id || '';
+                    document.getElementById('edit-student-name').value = data.name || '';
+                    document.getElementById('edit-student-class').value = data.class || '';
+                    document.getElementById('edit-marks-english').value = data.marksEnglish || '';
+                    document.getElementById('edit-marks-math').value = data.marksMath || '';
+                    document.getElementById('edit-marks-science').value = data.marksScience || '';
+                    document.getElementById('edit-teacher-remarks').value = data.remarks || '';
+                    showMessage("Report loaded for editing.", "info");
+                } else {
+                    showMessage("No report found. Creating a new one.", "info");
+                    document.getElementById('report-editor-form').reset();
+                    document.getElementById('edit-student-id').value = studentId; // Pre-fill ID
+                }
+            } catch (error) {
+                console.error("Error fetching report for edit:", error);
+                showMessage(error.message, "error");
+            }
+        }
+        
+        async function handleReportSave(event) {
+            event.preventDefault();
+            const studentId = document.getElementById('edit-student-id').value.trim();
+            if (!studentId) {
+                showMessage("Student ID is required to save a report.", "error");
+                return;
+            }
+            
+            const reportData = {
+                id: studentId,
+                name: document.getElementById('edit-student-name').value,
+                class: document.getElementById('edit-student-class').value,
+                marksEnglish: document.getElementById('edit-marks-english').value,
+                marksMath: document.getElementById('edit-marks-math').value,
+                marksScience: document.getElementById('edit-marks-science').value,
+                remarks: document.getElementById('edit-teacher-remarks').value,
+                lastUpdated: serverTimestamp()
+            };
+            
+            try {
+                // Use studentId as the document ID for easy lookup
+                const reportRef = doc(db, reportCollectionPath, studentId);
+                await setDoc(reportRef, reportData, { merge: true }); // setDoc creates or overwrites
+                
+                showMessage("Report saved successfully!", "success");
+                document.getElementById('report-editor-form').reset();
+                document.getElementById('fetch-student-id').value = '';
+            } catch (error) {
+                console.error("Error saving report:", error);
+                showMessage("Error saving report: " + error.message, "error");
+            }
+        }
+        
+        // --- Staff Dashboard: Event Management ---
+
+        function listenForEventsAdmin() {
+            if (adminEventsUnsubscribe) return; // Already listening
+            console.log("Attaching admin events listener.");
+
+            const eventListAdmin = document.getElementById('event-list-admin');
+            const q = query(collection(db, eventCollectionPath)); // Can add orderBy('date', 'desc') later
+            
+            adminEventsUnsubscribe = onSnapshot(q, (querySnapshot) => {
+                eventDataCache.clear(); // Clear cache on update
+                if (querySnapshot.empty) {
+                    eventListAdmin.innerHTML = '<p class="text-gray-500">No events found. Add one above!</p>';
+                    return;
+                }
+                
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    eventDataCache.set(doc.id, doc.data()); // Populate cache
+                    const event = doc.data();
+                    const eventDate = event.date ? new Date(event.date).toLocaleDateString() : 'No date';
+                    html += `
+                        <div class="bg-gray-100 p-4 rounded-lg flex flex-col sm:flex-row justify-between sm:items-start">
+                            <div>
+                                <strong class="text-gray-800">${event.title}</strong>
+                                <p class="text-sm text-gray-600">${eventDate} - ${event.location || 'N/A'}</p>
+                                <p class="text-sm mt-1">${event.description || 'No description.'}</p>
+                            </div>
+                            <div class="flex-shrink-0 sm:ml-4 space-x-2 mt-3 sm:mt-0 self-end sm:self-auto">
+                                <button onclick="populateEventForm('${doc.id}')" class="text-sm text-blue-600 hover:underline">Edit</button>
+                                <button onclick="handleEventDelete('${doc.id}')" class="text-sm text-red-600 hover:underline">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                eventListAdmin.innerHTML = html;
+                
+            }, (error) => {
+                console.error("Error listening to admin events:", error);
+                eventListAdmin.innerHTML = '<p class="text-red-500">Could not load events.</p>';
+            });
+        }
+        
+        async function handleEventSave(event) {
+            event.preventDefault();
+            const docId = document.getElementById('event-doc-id').value;
+            
+            const eventData = {
+                title: document.getElementById('edit-event-title').value,
+                date: document.getElementById('edit-event-date').value,
+                location: document.getElementById('edit-event-location').value,
+                description: document.getElementById('edit-event-description').value,
+                lastUpdated: serverTimestamp()
+            };
+            
+            try {
+                if (docId) {
+                    // Update existing event
+                    const eventRef = doc(db, eventCollectionPath, docId);
+                    await updateDoc(eventRef, eventData);
+                    showMessage("Event updated!", "success");
+                } else {
+                    // Create new event
+                    await addDoc(collection(db, eventCollectionPath), eventData);
+                    showMessage("Event created!", "success");
+                }
+                document.getElementById('event-editor-form').reset();
+            } catch (error) {
+                console.error("Error saving event:", error);
+                showMessage(error.message, "error");
+            }
+        }
+        
+        async function handleEventDelete(docId) {
+            if (!docId) return;
+            // A custom modal for confirmation would be better than window.confirm
+            // For now, we'll just delete directly.
+            console.log("Delete requested for", docId);
+            
+            try {
+                await deleteDoc(doc(db, eventCollectionPath, docId));
+                showMessage("Event deleted.", "success");
+            } catch (error) {
+                console.error("Error deleting event:", error);
+                showMessage(error.message, "error");
+            }
+        }
+        
+        function populateEventForm(id) {
+            const event = eventDataCache.get(id); // Get data from cache
+            if (!event) {
+                console.error("Could not find event data for id:", id);
+                showMessage("Could not load event data to edit.", "error");
+                return;
+            }
+
+            document.getElementById('event-doc-id').value = id;
+            document.getElementById('edit-event-title').value = event.title || '';
+            document.getElementById('edit-event-date').value = event.date || '';
+            document.getElementById('edit-event-location').value = event.location || '';
+            document.getElementById('edit-event-description').value = event.description || '';
+            window.scrollTo(0, document.getElementById('event-editor-form').offsetTop);
+        }
+        
+        function clearEventForm() {
+            document.getElementById('event-editor-form').reset();
+            document.getElementById('event-doc-id').value = '';
+        }
+
+        // Make functions accessible globally for onclick attributes
+        window.populateEventForm = populateEventForm;
+        window.handleEventDelete = handleEventDelete;
+
+        
+        // --- Admissions Inquiry Form ---
+        
+        async function handleAdmissionInquiry(event) {
+            event.preventDefault();
+            const formData = {
+                parentName: document.getElementById('admission-parent-name').value,
+                email: document.getElementById('admission-email').value,
+                phone: document.getElementById('admission-phone').value,
+                studentClass: document.getElementById('admission-student-class').value,
+                message: document.getElementById('admission-message').value,
+                submittedAt: new Date().toISOString() // Use ISO string for consistency
+            };
+            
+            try {
+                await addDoc(collection(db, admissionCollectionPath), formData);
+                showMessage("Your inquiry has been submitted! We will contact you soon.", "success");
+                event.target.reset();
+                showPage('home'); // Send user back to home page
+            } catch (error) {
+                console.error("Error submitting inquiry:", error);
+                showMessage("Error submitting inquiry: " + error.message, "error");
+            }
+        }
+
+        // --- Staff Dashboard: View Inquiries ---
+        
+        function listenForInquiriesAdmin() {
+            if (adminInquiriesUnsubscribe) return; // Already listening
+            console.log("Attaching admin inquiries listener.");
+
+            const inquiryListAdmin = document.getElementById('inquiry-list-admin');
+            const q = query(collection(db, admissionCollectionPath)); // No ordering, but can add later
+            
+            adminInquiriesUnsubscribe = onSnapshot(q, (querySnapshot) => {
+                if (querySnapshot.empty) {
+                    inquiryListAdmin.innerHTML = '<p class="text-gray-500">No admission inquiries yet.</p>';
+                    return;
+                }
+                
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    const inquiry = doc.data();
+                    const submissionDate = new Date(inquiry.submittedAt).toLocaleString();
+                    html += `
+                        <div class="bg-gray-100 p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="flex flex-col sm:flex-row justify-between sm:items-start">
+                                <div>
+                                    <strong class="text-gray-800">${inquiry.parentName}</strong>
+                                    <span class="text-sm text-gray-600 ml-0 sm:ml-2 mt-1 sm:mt-0 block sm:inline">(Applying for: ${inquiry.studentClass})</span>
+                                    <p class="text-sm text-blue-600">${inquiry.email} | ${inquiry.phone}</p>
+                                    <p class="text-sm text-gray-500 mt-1">Submitted: ${submissionDate}</p>
+                                </div>
+                                <button onclick="handleInquiryDelete('${doc.id}')" class="text-sm text-red-600 hover:underline mt-3 sm:mt-0 self-end sm:self-auto">Delete</button>
+                            </div>
+                            <p class="mt-3 text-gray-700 bg-white p-3 rounded">${inquiry.message || 'No message.'}</p>
+                        </div>
+                    `;
+                });
+                inquiryListAdmin.innerHTML = html;
+                
+            }, (error) => {
+                console.error("Error listening to admin inquiries:", error);
+                inquiryListAdmin.innerHTML = '<p class="text-red-500">Could not load inquiries.</p>';
+            });
+        }
+        
+        async function handleInquiryDelete(docId) {
+            if (!docId) return;
+            console.log("Delete inquiry requested for", docId);
+            
+            try {
+                await deleteDoc(doc(db, admissionCollectionPath, docId));
+                showMessage("Inquiry deleted.", "success");
+            } catch (error) {
+                console.error("Error deleting inquiry:", error);
+                showMessage(error.message, "error");
+            }
+        }
+        
+        // Make delete function accessible globally
+        window.handleInquiryDelete = handleInquiryDelete;
+
+        // --- Utility: Message Box ---
+        function showMessage(message, type = "info") {
+            const msgBox = document.getElementById('message-box');
+            const msgContent = document.getElementById('message-content');
+            
+            msgContent.textContent = message;
+            
+            // Reset classes
+            msgBox.className = 'hidden fixed top-4 inset-x-4 p-4 rounded-md shadow-lg z-50 flex justify-between items-center md:top-5 md:inset-x-auto md:right-5 md:max-w-sm';
+            
+            switch (type) {
+                case "success":
+                    msgBox.classList.add('bg-green-500', 'text-white');
+                    break;
+                case "error":
+                    msgBox.classList.add('bg-red-500', 'text-white');
+                    break;
+                default:
+                    msgBox.classList.add('bg-blue-500', 'text-white');
+            }
+            
+            msgBox.classList.remove('hidden');
+            
+            setTimeout(() => {
+                msgBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        // --- Home Page: Event Listener ---
+        function listenForEventsHome() {
+            if (homeEventsUnsubscribe) return; // Already listening
+            console.log("Attaching home events listener.");
+
+            const eventListHome = document.getElementById('event-list-home');
+            const q = query(collection(db, eventCollectionPath)); // Can add orderBy
+            
+            homeEventsUnsubscribe = onSnapshot(q, (querySnapshot) => {
+                if (querySnapshot.empty) {
+                    eventListHome.innerHTML = '<p class="text-gray-500 text-center">No upcoming events at this time.</p>';
+                    return;
+                }
+                
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    const event = doc.data();
+                    const eventDate = event.date ? new Date(event.date).toLocaleDateString() : 'Date TBD';
+                    html += `
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <strong class="text-blue-700">${event.title}</strong>
+                            <p class="text-sm text-gray-600">${eventDate} | ${event.location || 'N/A'}</p>
+                            <p class="text-sm mt-1">${event.description || 'More details to come.'}</p>
+                        </div>
+                    `;
+                });
+                eventListHome.innerHTML = html;
+                
+            }, (error) => {
+                console.error("Error listening to home events:", error);
+                eventListHome.innerHTML = '<p class="text-red-500 text-center">Could not load events.</p>';
+            });
+        }
+        
+        // --- Event Listeners Setup ---
+        window.onload = () => {
+            document.initializeAuth();
+
+            // Nav links
+            document.getElementById('nav-home').addEventListener('click', () => showPage('home'));
+            document.getElementById('nav-admissions').addEventListener('click', () => showPage('admissions'));
+            // document.getElementById('nav-staff-portal').addEventListener('click', () => showPage('staff-login')); // Removed from header
+            document.getElementById('footer-staff-portal').addEventListener('click', () => showPage('staff-login'));
+            
+            // Student portal form (now on home page)
+            document.getElementById('student-report-form').addEventListener('submit', checkStudentReport);
+            document.getElementById('cta-admissions').addEventListener('click', () => showPage('admissions'));
+            
+            // Admission Inquiry Form
+            document.getElementById('admission-form').addEventListener('submit', handleAdmissionInquiry);
+
+            // Staff login/register forms
+            document.getElementById('staff-register-form').addEventListener('submit', handleStaffRegister);
+            document.getElementById('staff-login-form').addEventListener('submit', handleStaffLogin);
+            
+            // Staff Portal Home navigation
+            document.getElementById('nav-teacher-dash').addEventListener('click', () => showPage('teacher-dashboard'));
+            document.getElementById('nav-admin-dash').addEventListener('click', () => showPage('admin-dashboard'));
+
+            // Teacher Dashboard forms
+            document.getElementById('fetch-report-btn').addEventListener('click', handleFetchReport);
+            document.getElementById('report-editor-form').addEventListener('submit', handleReportSave);
+            
+            // Admin Dashboard forms
+            document.getElementById('event-editor-form').addEventListener('submit', handleEventSave);
+            document.getElementById('clear-event-form-btn').addEventListener('click', clearEventForm);
+
+            // Global staff buttons
+            document.querySelectorAll('.logout-button').forEach(btn => btn.addEventListener('click', handleStaffLogout));
+            document.querySelectorAll('.back-to-portal-button').forEach(btn => btn.addEventListener('click', () => showPage('staff-portal-home')));
+            
+            // Message box close
+            document.getElementById('close-message').addEventListener('click', () => {
+                document.getElementById('message-box').classList.add('hidden');
+            });
+
+            // Show initial page (home) and attach its listeners
+            showPage('home');
+        };
+
+    </script>
+</body>
+</html>
+
