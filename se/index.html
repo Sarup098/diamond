@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Engineering — Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --aged: #e8e0cc;
+    --accent: #c0392b;
+    --accent2: #2c3e7a;
+    --accent3: #1a6b3c;
+    --muted: #7a7060;
+    --highlight: #f0c040;
+    --rule: #c8b89a;
+    --code-bg: #1e1e2e;
+    --code-fg: #cdd6f4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3.5rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 20px, var(--accent2) 20px 40px, var(--accent3) 40px 60px, var(--highlight) 60px 80px);
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .course-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--highlight);
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .course-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 2px;
+    background: var(--accent);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  header h1 span {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .header-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: #999;
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .header-meta span { color: var(--aged); }
+
+  /* ─── TOC ─── */
+  nav.toc {
+    background: #fff9f0;
+    border: 2px solid var(--ink);
+    max-width: 960px;
+    margin: 2.5rem auto;
+    padding: 1.8rem 2.2rem;
+    position: relative;
+  }
+  nav.toc::before {
+    content: 'TABLE OF CONTENTS';
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.25rem 0.7rem;
+    position: absolute;
+    top: -0.7rem; left: 1.5rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.3rem 2rem;
+    margin-top: 0.5rem;
+  }
+  .toc-grid a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+    border-bottom: 1px dotted var(--rule);
+    transition: color 0.15s;
+  }
+  .toc-grid a:hover { color: var(--accent); }
+  .toc-num {
+    color: var(--accent);
+    font-size: 0.68rem;
+    min-width: 1.6rem;
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+  }
+
+  /* ─── SECTION ─── */
+  .section {
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .section.visible { opacity: 1; transform: none; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--ink);
+    position: relative;
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 0.35rem 0.6rem;
+    margin-top: 0.35rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ─── CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin: 1.2rem 0;
+  }
+  .card {
+    border: 1.5px solid var(--rule);
+    padding: 1.2rem 1.4rem;
+    background: #fff9f0;
+    position: relative;
+  }
+  .card::before {
+    content: attr(data-label);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--accent2);
+    padding: 0.15rem 0.5rem;
+    position: absolute;
+    top: -0.55rem; left: 0.8rem;
+  }
+  .card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .card p, .card li {
+    font-size: 0.88rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  .card ul { padding-left: 1.1rem; }
+  .card li { margin-bottom: 0.2rem; }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight-box {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1.4rem 1.8rem;
+    margin: 1.5rem 0;
+    border-left: 6px solid var(--highlight);
+    position: relative;
+  }
+  .highlight-box::before {
+    content: attr(data-type);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--highlight);
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .highlight-box p { font-size: 0.92rem; line-height: 1.7; }
+  .highlight-box strong { color: var(--highlight); }
+
+  /* ─── DEFINITION LIST ─── */
+  .def-list { margin: 1.2rem 0; }
+  .def-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.75rem 0;
+  }
+  .def-term {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent2);
+    padding-top: 0.1rem;
+  }
+  .def-desc { font-size: 0.9rem; color: #333; }
+
+  /* ─── PRINCIPLE LIST ─── */
+  .principle-list {
+    counter-reset: principle;
+    list-style: none;
+    margin: 1.2rem 0;
+  }
+  .principle-list li {
+    counter-increment: principle;
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--aged);
+    font-size: 0.91rem;
+    align-items: flex-start;
+  }
+  .principle-list li::before {
+    content: counter(principle, decimal-leading-zero);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 2rem;
+    padding-top: 0.1rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── TWO COLUMN TEXT ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.2rem 0;
+  }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } .def-item { grid-template-columns: 1fr; } }
+
+  /* ─── INLINE CODE / TAG ─── */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    background: #e8e0cc;
+    color: var(--accent);
+    padding: 0.1em 0.35em;
+    font-size: 0.85em;
+    border-radius: 2px;
+  }
+
+  /* ─── FORMULA BOX ─── */
+  .formula {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--code-bg);
+    color: var(--code-fg);
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    border-left: 4px solid #f38ba8;
+    overflow-x: auto;
+  }
+  .formula .var { color: #cba6f7; }
+  .formula .eq  { color: #f38ba8; }
+  .formula .val { color: #a6e3a1; }
+  .formula .comment { color: #585b70; }
+
+  /* ─── PHASE TIMELINE ─── */
+  .timeline {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    margin: 1.5rem 0;
+    padding-bottom: 0.5rem;
+  }
+  .phase {
+    min-width: 130px;
+    flex: 1;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.9rem 0.8rem;
+    position: relative;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .phase:nth-child(odd) { background: var(--accent2); }
+  .phase:nth-child(3n) { background: var(--accent); }
+  .phase::after {
+    content: '▶';
+    position: absolute;
+    right: -0.5rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    z-index: 1;
+    color: var(--paper);
+  }
+  .phase:last-child::after { display: none; }
+  .phase-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .phase-desc { font-size: 0.75rem; opacity: 0.85; }
+
+  /* ─── TABLE ─── */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 0.88rem;
+  }
+  .styled-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.65rem 0.9rem;
+    text-align: left;
+  }
+  .styled-table td {
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .styled-table tr:nth-child(even) td { background: #fdf8f0; }
+
+  /* ─── QUOTE ─── */
+  blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 0.8rem 1.4rem;
+    margin: 1.2rem 0;
+    background: #fff9f0;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 0.4rem;
+    font-style: normal;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  /* ─── TAG PILLS ─── */
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border: 1.5px solid;
+    border-radius: 0;
+  }
+  .tag-red   { border-color: var(--accent); color: var(--accent); }
+  .tag-blue  { border-color: var(--accent2); color: var(--accent2); }
+  .tag-green { border-color: var(--accent3); color: var(--accent3); }
+
+  /* ─── DIVIDER ─── */
+  .rule {
+    border: none;
+    border-top: 2px solid var(--rule);
+    margin: 2rem 0;
+  }
+  .rule-thick {
+    border: none;
+    border-top: 4px solid var(--ink);
+    margin: 3rem 0 2rem;
+  }
+
+  p { margin-bottom: 0.9rem; font-size: 0.93rem; }
+  p:last-child { margin-bottom: 0; }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 1.4rem 0 0.6rem;
+    color: var(--accent2);
+  }
+  strong { color: var(--ink); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: #666;
+    text-align: center;
+    padding: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    margin-top: 2rem;
+  }
+  footer span { color: var(--highlight); }
+
+  /* ─── SCROLL TO TOP ─── */
+  #top-btn {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--highlight);
+    padding: 0.6rem 0.9rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 100;
+    letter-spacing: 0.1em;
+  }
+  #top-btn.show { opacity: 1; pointer-events: auto; }
+  #top-btn:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="course-tag">CSML301A1 · 4 Credits · Complete Study Reference</div>
+    <h1>Software<br><span>Engineering</span></h1>
+    <div class="header-meta">
+      <div>Topics: <span>21 Modules</span></div>
+      <div>Covers: <span>SDLC · Design · Testing · DevOps · UML · Agile</span></div>
+      <div>Use: <span>Exam Preparation & Deep Learning</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-grid">
+    <a href="#s1"><span class="toc-num">01</span>Introduction to SE</a>
+    <a href="#s2"><span class="toc-num">02</span>SDLC Models</a>
+    <a href="#s3"><span class="toc-num">03</span>Requirements Analysis & SRS</a>
+    <a href="#s4"><span class="toc-num">04</span>WRSPM Model</a>
+    <a href="#s5"><span class="toc-num">05</span>Software Design</a>
+    <a href="#s6"><span class="toc-num">06</span>Function-Oriented Design & DFDs</a>
+    <a href="#s7"><span class="toc-num">07</span>Object Modeling & UML</a>
+    <a href="#s8"><span class="toc-num">08</span>Coding & Testing</a>
+    <a href="#s9"><span class="toc-num">09</span>Software Testing</a>
+    <a href="#s10"><span class="toc-num">10</span>Project Management</a>
+    <a href="#s11"><span class="toc-num">11</span>Scheduling & CPM/PERT</a>
+    <a href="#s12"><span class="toc-num">12</span>Risk Management</a>
+    <a href="#s13"><span class="toc-num">13</span>Halstead's Metrics</a>
+    <a href="#s14"><span class="toc-num">14</span>Agile Development</a>
+    <a href="#s15"><span class="toc-num">15</span>DevOps</a>
+    <a href="#s16"><span class="toc-num">16</span>CI/CD</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════ 01 ══════════════════ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Introduction to <em>Software Engineering</em></h2>
+  </div>
+
+  <p><strong>Software Engineering</strong> is the systematic, disciplined, and quantifiable approach to the development, operation, and maintenance of software. It combines <em>software</em> (collection of executable code, libraries, and documentation) with <em>engineering</em> (well-defined, scientific principles).</p>
+
+  <div class="highlight-box" data-type="Core Definition">
+    <p>"A systematic collection of good program development practices and techniques — an engineering approach to develop software."</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3>Program vs. Software</h3>
+      <div class="def-list">
+        <div class="def-item" style="grid-template-columns:1fr">
+          <span class="def-term">Program</span>
+          <span class="def-desc">Small, single-user, limited functionality; poor maintainability, no documentation.</span>
+        </div>
+        <div class="def-item" style="grid-template-columns:1fr">
+          <span class="def-term">Software</span>
+          <span class="def-desc">Large, multi-user, systematically designed, thoroughly tested, good UI & documentation, team-developed.</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>Evolution of SE</h3>
+      <p>Software engineering evolved from <em>Art → Craft → Engineering</em> over 60 years:</p>
+      <ul class="principle-list">
+        <li>Esoteric / build-and-fix era</li>
+        <li>Craft: unorganised use of experience</li>
+        <li>Engineering: systematic, scientific basis</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Course Objectives</h3>
+  <div class="tags">
+    <span class="tag tag-red">Software Quality</span>
+    <span class="tag tag-blue">QA & QC</span>
+    <span class="tag tag-green">Testing</span>
+    <span class="tag tag-red">ISO Certification</span>
+    <span class="tag tag-blue">Cost Estimation</span>
+    <span class="tag tag-green">Project Management</span>
+    <span class="tag tag-red">Rapid Development</span>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 02 ══════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Software Development Life Cycle <em>(SDLC) Models</em></h2>
+  </div>
+
+  <p>An <strong>SDLC model</strong> graphically depicts the different phases a software evolves through, accompanied by descriptions of activities in each phase. It promotes systematic, disciplined development — essential for team-based ("programming-in-the-large") projects.</p>
+
+  <div class="highlight-box" data-type="Why Use SDLC">
+    <p>Adherence to a suitable life cycle model helps produce <strong>good quality software</strong> and minimizes chances of time and cost overruns. A documented process model is a <strong>mandatory requirement</strong> of ISO 9000 and SEI CMM quality standards.</p>
+  </div>
+
+  <h3>Phase Entry & Exit Criteria</h3>
+  <p>A good SDLC defines <strong>entry</strong> (conditions before a phase starts) and <strong>exit criteria</strong> (conditions before a phase ends). Example: SRS phase exit = SRS document ready, internally reviewed, and customer-approved.</p>
+
+  <hr class="rule">
+
+  <h3>Classical Waterfall Model</h3>
+  <div class="timeline">
+    <div class="phase"><div class="phase-name">Feasibility Study</div><div class="phase-desc">Is it viable?</div></div>
+    <div class="phase"><div class="phase-name">Requirements Analysis</div><div class="phase-desc">SRS document</div></div>
+    <div class="phase"><div class="phase-name">System Design</div><div class="phase-desc">Architecture</div></div>
+    <div class="phase"><div class="phase-name">Coding</div><div class="phase-desc">Implementation</div></div>
+    <div class="phase"><div class="phase-name">Testing</div><div class="phase-desc">Verification</div></div>
+    <div class="phase"><div class="phase-name">Maintenance</div><div class="phase-desc">Ongoing support</div></div>
+  </div>
+  <div class="card-grid">
+    <div class="card" data-label="Shortcomings">
+      <h4>Classical Waterfall Weaknesses</h4>
+      <ul>
+        <li>No feedback paths between phases</li>
+        <li>Difficult to accommodate change requests</li>
+        <li>Inefficient error corrections</li>
+        <li>No overlapping of phases</li>
+      </ul>
+    </div>
+    <div class="card" data-label="Improvement">
+      <h4>Iterative Waterfall</h4>
+      <ul>
+        <li>Adds feedback paths within phases</li>
+        <li>Phase containment of errors</li>
+        <li>Still no incremental delivery</li>
+        <li>Limited customer interaction</li>
+        <li>No support for risk handling</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <h3>Other Key SDLC Models</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Model">
+      <h4>V-Model</h4>
+      <p>Each development stage maps to a corresponding test stage. Strong on testing activity, quality test cases, efficient manpower distribution.</p>
+    </div>
+    <div class="card" data-label="Model">
+      <h4>Prototyping Model</h4>
+      <p>Quickly builds a prototype to explore requirements. Iterative development. Good when requirements are unclear. Risk: scope creep.</p>
+    </div>
+    <div class="card" data-label="Model">
+      <h4>Incremental Model</h4>
+      <p>Delivers software in increments. Each increment adds functionality. Allows early delivery and feedback.</p>
+    </div>
+    <div class="card" data-label="Model">
+      <h4>Evolutionary Model</h4>
+      <p>Evolves through iterations. Requirements may change between iterations. Combines prototyping with incremental delivery.</p>
+    </div>
+    <div class="card" data-label="Model">
+      <h4>Spiral Model</h4>
+      <p>Risk-driven iterative model. Each loop: plan → risk analysis → development → evaluation. Best for large, high-risk projects.</p>
+    </div>
+    <div class="card" data-label="Model">
+      <h4>RAD (Rapid Application Development)</h4>
+      <p>Fast development with frequent releases. Iterative + quick user feedback. Flexible to accommodate changes during development.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 03 ══════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Requirements Analysis <em>&amp; SRS</em></h2>
+  </div>
+
+  <p>A <strong>requirement</strong> is a capability or condition required from the system to be developed. The goal of requirements analysis is to clearly understand customer needs and organize them into an <strong>SRS (Software Requirements Specification)</strong> document.</p>
+
+  <h3>Three Activities</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">Requirement Gathering</span>
+      <span class="def-desc">Elicitation from stakeholders via study of existing docs, interviews (Delphi technique), task analysis, scenario analysis, form analysis.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Requirement Analysis</span>
+      <span class="def-desc">Remove anomalies, inconsistencies, incompleteness. Clarify data input/output, procedures, complexities, and external interfaces.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Requirement Specification</span>
+      <span class="def-desc">Document gathered and analyzed requirements in the SRS document.</span>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <h3>SRS Document</h3>
+  <p>A comprehensive description of the intended purpose and environment of the software. An SRS minimizes development cost and time.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Types of Requirements</h3>
+      <ul class="principle-list">
+        <li><strong>Functional</strong> — what the system does</li>
+        <li><strong>Performance</strong> — speed, accuracy, frequency, throughput</li>
+        <li><strong>External Interface</strong> — hardware/software interfaces</li>
+        <li><strong>Design Constraints</strong> — how (not just what)</li>
+        <li><strong>Quality Attributes</strong> — reliability, portability, maintainability</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Software Quality Attributes</h3>
+      <div class="tags">
+        <span class="tag tag-red">Correctness</span>
+        <span class="tag tag-blue">Reliability</span>
+        <span class="tag tag-green">Efficiency</span>
+        <span class="tag tag-red">Integrity</span>
+        <span class="tag tag-blue">Usability</span>
+        <span class="tag tag-green">Survivability</span>
+        <span class="tag tag-red">Maintainability</span>
+        <span class="tag tag-blue">Portability</span>
+        <span class="tag tag-green">Reusability</span>
+        <span class="tag tag-red">Expandability</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" data-type="Why SRS Matters">
+    <p>Good SRS reduces development cost by up to <strong>40%</strong> (fewer change requests later). It serves as: agreement between customer & developer · basis for cost/schedule estimation · basis for validation & verification · foundation for user manual.</p>
+  </div>
+
+  <h3>Users of SRS</h3>
+  <div class="tags">
+    <span class="tag tag-blue">Users & Customers</span>
+    <span class="tag tag-red">Software Developers</span>
+    <span class="tag tag-green">Test Engineers</span>
+    <span class="tag tag-blue">Documentation Writers</span>
+    <span class="tag tag-red">Project Managers</span>
+    <span class="tag tag-green">Maintenance Engineers</span>
+  </div>
+
+  <h3>Requirements Problems</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">Anomaly</span>
+      <span class="def-desc">A requirement that is unusual, incorrect, or deviates from the norm.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Inconsistency</span>
+      <span class="def-desc">Two requirements that contradict each other.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Incompleteness</span>
+      <span class="def-desc">Requirements that are missing information or leave scenarios undefined.</span>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 04 ══════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">WRSPM <em>Model</em></h2>
+  </div>
+
+  <p>The <strong>WRSPM (World, Requirements, Specifications, Programs, Machines)</strong> model is a framework for understanding and structuring requirements within the SDLC.</p>
+
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">World (W)</span>
+      <span class="def-desc">Real-world context and assumptions — market, competitors, user demographics, domain knowledge that form the foundation for understanding requirements.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Requirements (R)</span>
+      <span class="def-desc">User's language-based understanding of what they want from the solution (e.g., "I want to withdraw money from an ATM").</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Specifications (S)</span>
+      <span class="def-desc">System language-based description of how the system meets requirements — interface definition, steps a user must follow (insert card, enter PIN, select amount).</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Programs (P)</span>
+      <span class="def-desc">Software developers' implementation of specifications — all code and underlying frameworks.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Machines (M)</span>
+      <span class="def-desc">Hardware specifications supporting the system — physical components like servers, cash dispensers, security mechanisms.</span>
+    </div>
+  </div>
+
+  <div class="highlight-box" data-type="Key Insight">
+    <p>WRSPM provides a structured approach to managing requirements complexity, ensuring that the <strong>distinction between user requirements and system specifications</strong> is captured clearly. Most goals are met when the end user is happy and satisfied.</p>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 05 ══════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Software <em>Design</em></h2>
+  </div>
+
+  <p>The <strong>design phase</strong> transforms the SRS document into a design document that is implementable in a programming language. The design process identifies modules, control relationships, interfaces, data structures, and algorithms.</p>
+
+  <h3>Classification of Design Activities</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Stage 1">
+      <h4>Preliminary (High-Level) Design</h4>
+      <p>Identifies modules required, control relationships, and interfaces. Also called <em>software architecture</em> or structural design.</p>
+    </div>
+    <div class="card" data-label="Stage 2">
+      <h4>Detailed Design</h4>
+      <p>Specifies data structures and algorithms for each individual module. Documented in module specifications.</p>
+    </div>
+  </div>
+
+  <h3>Characteristics of Good Software Design</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">Correctness</span>
+      <span class="def-desc">Design correctly realizes all requirements in the SRS document.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Understandability</span>
+      <span class="def-desc">Consistent, meaningful names; decomposition; abstraction; modularity; layered structure.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Efficiency</span>
+      <span class="def-desc">Makes efficient use of time and space resources.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Maintainability</span>
+      <span class="def-desc">Easy to modify when requirements change or defects are discovered.</span>
+    </div>
+  </div>
+
+  <h3>Modularity</h3>
+  <p>A <strong>modular design</strong> decomposes a problem into a set of modules with <em>limited interactions</em>. It is a basic characteristic of any good design solution, enabling independent development, testing, and maintenance.</p>
+
+  <h3>Layered Design</h3>
+  <p>In a <strong>layered design</strong>, modules are arranged in a hierarchy where a module can only invoke functions of the <em>immediately lower layer</em>. This implements <strong>control abstraction</strong> — lower modules are unaware of higher layer modules, like workers unaware of senior management structure.</p>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 06 ══════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Function-Oriented Design <em>&amp; DFDs</em></h2>
+  </div>
+
+  <p><strong>Function-Oriented Design</strong> views a system as a black box providing services to users. High-level functions are successively decomposed (<em>top-down decomposition</em>). The methodology used is <strong>Structured Analysis / Structured Design (SA/SD)</strong>.</p>
+
+  <div class="two-col">
+    <div>
+      <h3>Structured Analysis (SA)</h3>
+      <p>Transforms SRS into a <strong>DFD model</strong> (functional decomposition). Based on principles:</p>
+      <ul class="principle-list">
+        <li>Top-down decomposition approach</li>
+        <li>Divide and conquer principle</li>
+        <li>Graphical representation using DFDs</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Structured Design (SD)</h3>
+      <p>Transforms the DFD model into a <strong>structure chart</strong> (module hierarchy). Maps all identified functions into a module structure = high-level design / software architecture.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <h3>Data Flow Diagrams (DFDs)</h3>
+  <p>A <strong>DFD (bubble chart)</strong> is a hierarchical graphical model showing processing activities and data interchange. Primitive symbols:</p>
+
+  <table class="styled-table">
+    <tr><th>Symbol</th><th>Representation</th><th>Notes</th></tr>
+    <tr><td><code>Circle / Bubble</code></td><td>Function/Process</td><td>Annotated with function name</td></tr>
+    <tr><td><code>Rectangle</code></td><td>External Entity</td><td>Interacts with system (input/output)</td></tr>
+    <tr><td><code>Directed Arc →</code></td><td>Data Flow</td><td>Annotated with data name; shows flow direction</td></tr>
+    <tr><td><code>Open Rectangle</code></td><td>Data Store</td><td>Persistent data repository</td></tr>
+  </table>
+
+  <h3>DFD Levels</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Level 0">
+      <h4>Context Diagram</h4>
+      <p>Most abstract. Entire system = single bubble. Shows external entities, input data, and output data. Establishes system context.</p>
+    </div>
+    <div class="card" data-label="Level 1">
+      <h4>Level 1 DFD</h4>
+      <p>Contains 3–7 bubbles. Derived from high-level functional requirements in SRS. Shows major processes and data flows between them.</p>
+    </div>
+    <div class="card" data-label="Level N">
+      <h4>Decomposed DFDs</h4>
+      <p>Each bubble is "exploded" (factored) into sub-functions until each bubble can be described by a simple algorithm. Also called bubble decomposition.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 07 ══════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Object Modeling <em>&amp; UML</em></h2>
+  </div>
+
+  <p><strong>UML (Unified Modelling Language)</strong> is an OMG-standard modeling language accepted by ISO. It provides graphical notations to document design and analysis models. Based on work from Booch, Rumbaugh, and Jacobson (OMT, Booch methodology, OOSE).</p>
+
+  <h3>Basic OO Concepts</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">Object</span>
+      <span class="def-desc">Tangible real-world entity or conceptual entity that stores data and supports operations (methods). Objects provide excellent decomposition of large problems.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Class</span>
+      <span class="def-desc">A collection of similar objects with same attributes and methods. A class is an Abstract Data Type (ADT) — data accessed only through methods, and it can be instantiated into objects.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Inheritance</span>
+      <span class="def-desc">Derived class inherits from base class (super/parent). Enables generalization-specialization. Multiple inheritance: inheriting from more than one base class.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Association & Link</span>
+      <span class="def-desc">Classes that can invoke each other's methods. A link is an instance of an association. Can be binary, n-ary, or unary (recursive). Links are dynamic; associations are persistent.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Composition & Aggregation</span>
+      <span class="def-desc">Part/whole relationships. A Book is composed of Chapters. Composite objects contain other objects.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Dependency</span>
+      <span class="def-desc">Class A depends on B if changes to B require changes to A. Arises when a method takes another class as argument or when implementing an interface.</span>
+    </div>
+  </div>
+
+  <h3>Key OO Principles</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Principle">
+      <h4>Abstraction</h4>
+      <p>Selective examination — consider only relevant aspects, suppress irrelevant details. Supported via <em>feature abstraction</em> (class hierarchy) and <em>data abstraction</em> (private data + methods).</p>
+    </div>
+    <div class="card" data-label="Principle">
+      <h4>Encapsulation</h4>
+      <p>Data of an object is encapsulated within its methods. Benefits: protection from unauthorized access, data hiding, weak coupling.</p>
+    </div>
+    <div class="card" data-label="Principle">
+      <h4>Polymorphism</h4>
+      <p>An object may behave differently for the same operation depending on its type. Types: <em>Static polymorphism</em> (compile-time) and <em>Dynamic polymorphism</em> (runtime).</p>
+    </div>
+    <div class="card" data-label="Principle">
+      <h4>Genericity</h4>
+      <p>Parameterize class definitions. Define a generic <code>Stack&lt;T&gt;</code> and instantiate as integer stack, character stack, etc.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <h3>UML Diagrams — 5 Views</h3>
+  <table class="styled-table">
+    <tr><th>View</th><th>Purpose</th><th>Diagram Types</th></tr>
+    <tr><td>User's View</td><td>Functionalities available to users</td><td>Use Case Diagram</td></tr>
+    <tr><td>Structural View</td><td>Classes important to system structure</td><td>Class Diagram, Object Diagram</td></tr>
+    <tr><td>Behavioral View</td><td>How objects interact over time</td><td>Sequence, Collaboration, State, Activity Diagrams</td></tr>
+    <tr><td>Implementation View</td><td>Key components and interdependencies</td><td>Component Diagram</td></tr>
+    <tr><td>Environmental View</td><td>Components on hardware</td><td>Deployment Diagram</td></tr>
+  </table>
+
+  <h3>Use Case Model</h3>
+  <p>The <strong>use case model</strong> (constructed first) captures the user's view of the system. A use case answers: <em>"What can the different categories of users achieve using the system?"</em> All other models must conform to the use case model.</p>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 08 ══════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Coding <em>&amp; Coding Standards</em></h2>
+  </div>
+
+  <p>The coding phase begins after the design phase. Each module specified in the design document is coded and <strong>unit tested</strong> in isolation. After all modules are coded, <strong>integration and system testing</strong> is undertaken.</p>
+
+  <h3>Coding Standards</h3>
+  <p>Professional software organizations require programmers to adhere to <strong>coding standards</strong> — rules for naming variables, code layout, error return conventions, etc. Compliance is verified during code review. Non-compliant code is rejected.</p>
+
+  <div class="card-grid">
+    <div class="card" data-label="Advantage">
+      <h4>Benefits of Coding Standards</h4>
+      <ul>
+        <li>Uniform appearance across engineers</li>
+        <li>Facilitates code understanding & reuse</li>
+        <li>Promotes good programming practices</li>
+      </ul>
+    </div>
+    <div class="card" data-label="Distinction">
+      <h4>Standard vs. Guideline</h4>
+      <p><strong>Coding Standards</strong>: Mandatory rules. Verified during code inspection. Violations cause code rejection.</p>
+      <p><strong>Coding Guidelines</strong>: General suggestions. Left to developer discretion.</p>
+    </div>
+  </div>
+
+  <h3>Code Review</h3>
+  <p>After a module is coded, <strong>code review</strong> verifies coding standards compliance and detects errors early. Code reviews are more <em>efficient</em> than testing for defect elimination — finding and fixing errors is cheaper before testing begins.</p>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 09 ══════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2 class="section-title">Software <em>Testing</em></h2>
+  </div>
+
+  <blockquote>
+    "Testing is the process of executing a program with the intention of finding errors." <cite>— Glenford Myers</cite>
+  </blockquote>
+  <blockquote>
+    "Testing can show the presence of bugs but never their absence." <cite>— Edsger Dijkstra</cite>
+  </blockquote>
+
+  <h3>Good Testing Practices</h3>
+  <ul class="principle-list">
+    <li>A good test case has a high probability of detecting <em>undiscovered defects</em>, not just showing the program works</li>
+    <li>It is impossible to effectively test your own program</li>
+    <li>Every test case must include a description of the <em>expected result</em></li>
+    <li>Avoid non-reproducible or on-the-fly testing</li>
+    <li>Write test cases for both valid and <em>invalid</em> input conditions</li>
+    <li>Thoroughly inspect results of each test</li>
+    <li>As detected defects increase, probability of more undetected defects also increases</li>
+    <li>Assign your <em>best people</em> to testing</li>
+    <li>Testability should be a key objective in software design</li>
+    <li>Never alter the program to make testing easier</li>
+  </ul>
+
+  <hr class="rule">
+
+  <h3>Levels of Testing</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Level 1">
+      <h4>Unit Testing</h4>
+      <p>Tests each module in isolation. Focuses on: algorithms & logic, data structures, interfaces, independent paths, boundary conditions, error handling.</p>
+    </div>
+    <div class="card" data-label="Level 2">
+      <h4>Integration Testing</h4>
+      <p>Tests combined modules. Necessary because: one module can adversely affect another; subfunctions combined may not produce desired result; interfacing errors appear; timing/resource contention issues surface.</p>
+    </div>
+    <div class="card" data-label="Level 3">
+      <h4>Validation Testing</h4>
+      <p>Tests against the SRS requirements. Verifies that the product does what the customer wants.</p>
+    </div>
+    <div class="card" data-label="Level 4">
+      <h4>System Testing</h4>
+      <p>Tests the full product against its requirements. Conducted on the complete integrated system.</p>
+    </div>
+    <div class="card" data-label="Level 5">
+      <h4>Acceptance Testing</h4>
+      <p>Customer validates that the delivered software meets agreed-upon requirements. Final gate before release.</p>
+    </div>
+    <div class="card" data-label="Special">
+      <h4>Regression Testing</h4>
+      <p>Re-runs tests after changes to ensure existing functionality is not broken by new code.</p>
+    </div>
+    <div class="card" data-label="Special">
+      <h4>Alpha Testing</h4>
+      <p>Performed at developer's site by end users. Controlled environment.</p>
+    </div>
+    <div class="card" data-label="Special">
+      <h4>Beta Testing</h4>
+      <p>Performed at customer's site. Real-world environment. Precedes product release.</p>
+    </div>
+  </div>
+
+  <h3>Integration Strategies</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">Top-Down Integration</span>
+      <span class="def-desc">Start from top-level modules, use stubs for lower-level ones. Tests control flow early.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Bottom-Up Integration</span>
+      <span class="def-desc">Start from lowest-level modules, use drivers for higher ones. Tests utilities early.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Big Bang</span>
+      <span class="def-desc">Integrate all at once. Easy to plan, hard to debug. Suitable for small systems.</span>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 10 ══════════════════ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2 class="section-title">Software Project <em>Management</em></h2>
+  </div>
+
+  <p>Software Project Management is the art and science of planning and leading software projects. Its goal: enable engineers to work efficiently towards successful completion of a project.</p>
+
+  <h3>Common Causes of Project Failure</h3>
+  <div class="two-col">
+    <ul class="principle-list">
+      <li>Unrealistic or unarticulated project goals</li>
+      <li>Inaccurate estimates of needed resources</li>
+      <li>Badly defined system requirements</li>
+      <li>Poor reporting of project status</li>
+      <li>Unmanaged risks</li>
+      <li>Poor communication (customer ↔ dev ↔ users)</li>
+    </ul>
+    <ul class="principle-list">
+      <li>Use of immature technology</li>
+      <li>Inability to handle project complexity</li>
+      <li>Sloppy development practices</li>
+      <li>Poor project management</li>
+      <li>Stakeholder politics</li>
+      <li>Commercial pressures</li>
+    </ul>
+  </div>
+
+  <h3>SE Project Management Complexities</h3>
+  <div class="tags">
+    <span class="tag tag-red">Invisibility</span>
+    <span class="tag tag-blue">Changeability</span>
+    <span class="tag tag-green">Complexity</span>
+    <span class="tag tag-red">Uniqueness</span>
+    <span class="tag tag-blue">Exactness of Solution</span>
+    <span class="tag tag-green">Team & Intellect-Intensive</span>
+  </div>
+
+  <h3>Project Manager Responsibilities</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Planning">
+      <h4>Project Planning</h4>
+      <ul>
+        <li>Size, effort, cost estimation</li>
+        <li>Scheduling (WBS, Gantt, PERT)</li>
+        <li>Project staffing</li>
+        <li>Proposal writing</li>
+      </ul>
+    </div>
+    <div class="card" data-label="Control">
+      <h4>Monitoring & Control</h4>
+      <ul>
+        <li>Track milestone completion</li>
+        <li>Risk management</li>
+        <li>Configuration management</li>
+        <li>Client interaction & reports</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 11 ══════════════════ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <span class="section-num">11</span>
+    <h2 class="section-title">Scheduling, CPM <em>&amp; PERT</em></h2>
+  </div>
+
+  <p>Scheduling consists of deciding which tasks are taken up when and by whom. The project manager monitors timely completion and takes corrective action on schedule slippage.</p>
+
+  <h3>Scheduling Steps</h3>
+  <ul class="principle-list">
+    <li>Identify all major activities needed to complete the project</li>
+    <li>Break each activity into smaller tasks</li>
+    <li>Determine dependency among tasks (task A depends on B if A needs B's output)</li>
+    <li>Represent information in an <strong>activity network</strong></li>
+    <li>Establish time duration estimates for each task</li>
+    <li>Determine task start and end dates from the activity network</li>
+    <li>Determine the <strong>critical path</strong> (chain of tasks determining project duration)</li>
+    <li>Allocate resources to tasks (Gantt chart)</li>
+  </ul>
+
+  <h3>Work Breakdown Structure (WBS)</h3>
+  <p>Recursively decomposes activities into smaller tasks. <strong>Tasks</strong> are the lowest-level work units — assigned to developers and scheduled. End of each important activity = a <strong>milestone</strong>.</p>
+
+  <hr class="rule">
+
+  <h3>Critical Path Method (CPM)</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">Minimum Time (MT)</span>
+      <span class="def-desc">Minimum project completion time = maximum of all paths from start to finish.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Earliest Start (ES)</span>
+      <span class="def-desc">Maximum of all paths from start to this task. ES = max(EF of all predecessors).</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Earliest Finish (EF)</span>
+      <span class="def-desc">EF = ES + duration of task.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Latest Start (LS)</span>
+      <span class="def-desc">LS = LF − duration of task. Computed backwards from project end.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Latest Finish (LF)</span>
+      <span class="def-desc">LF = min(LS of immediate successors). Latest time to finish without delaying the project.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">Slack Time (ST)</span>
+      <span class="def-desc">ST = LF − EF. Amount of time a task can be delayed without affecting project end. <strong>Critical path tasks have ST = 0.</strong></span>
+    </div>
+  </div>
+
+  <div class="formula">
+    <span class="comment">// CPM Calculation Formulas</span>
+    <br>ES  <span class="eq">=</span> max(EF of all predecessor tasks)
+    <br>EF  <span class="eq">=</span> ES <span class="eq">+</span> Duration
+    <br>LF  <span class="eq">=</span> min(LS of immediate successors)
+    <br>LS  <span class="eq">=</span> LF <span class="eq">-</span> Duration
+    <br>ST  <span class="eq">=</span> LF <span class="eq">-</span> EF  &nbsp;<span class="comment">// Slack / Float time</span>
+    <br>
+    <br><span class="comment">// Critical Path: all paths where duration == MT</span>
+    <br><span class="comment">// Tasks on critical path: ST == 0</span>
+  </div>
+
+  <div class="highlight-box" data-type="Important Note">
+    <p>There can be <strong>more than one critical path</strong>. The critical path may <strong>change as the project progresses</strong> when tasks complete ahead or behind schedule. Tasks on the critical path require <em>special attention</em> from the project manager.</p>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 12 ══════════════════ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <span class="section-num">12</span>
+    <h2 class="section-title">Risk <em>Management</em></h2>
+  </div>
+
+  <p>A <strong>risk</strong> is any anticipated unfavorable event that can occur while a project is underway. Risk management has three activities:</p>
+
+  <div class="card-grid">
+    <div class="card" data-label="Activity 1">
+      <h4>Risk Identification</h4>
+      <p><strong>Project Risks:</strong> budgetary, schedule, personnel, resource, customer-related (software invisibility).</p>
+      <p><strong>Technical Risks:</strong> design, implementation, interface, testing, maintenance problems.</p>
+      <p><strong>Business Risks:</strong> building excellent product no one wants; losing budgetary commitment.</p>
+    </div>
+    <div class="card" data-label="Activity 2">
+      <h4>Risk Assessment</h4>
+      <p>For each risk, assess:</p>
+      <ul>
+        <li><strong>r</strong> = likelihood the risk becomes real</li>
+        <li><strong>s</strong> = consequence/severity if it does</li>
+        <li><strong>Priority p = r × s</strong></li>
+      </ul>
+    </div>
+    <div class="card" data-label="Activity 3">
+      <h4>Risk Mitigation (3 Strategies)</h4>
+      <ul>
+        <li><strong>Avoid the risk</strong> — change the plan</li>
+        <li><strong>Transfer the risk</strong> — outsource/insure</li>
+        <li><strong>Risk Reduction</strong> — build prototype, plan containment</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="formula">
+    <span class="comment">// Risk Priority and Leverage</span>
+    <br>Priority <span class="eq">=</span> <span class="var">r</span> <span class="eq">×</span> <span class="var">s</span>
+    <br>
+    <br>Risk Leverage <span class="eq">=</span> (Risk Exposure Before − Risk Exposure After) <span class="eq">/</span> Cost of Reduction
+  </div>
+
+  <hr class="rule">
+  <h3>Software Configuration Management (SCM)</h3>
+  <p>Software consists of source code, design documents, SRS, test documents, and user manuals. The <strong>configuration</strong> is the state of all project deliverables at any point in time. SCM effectively tracks and controls the configuration throughout the software lifecycle.</p>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 13 ══════════════════ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <span class="section-num">13</span>
+    <h2 class="section-title">Halstead's Software <em>Metrics</em></h2>
+  </div>
+
+  <p><strong>Halstead's Software Science</strong> (Maurice Halstead, 1977) analytically measures size, development effort, and cost directly from source code. Programs are treated as sequences of tokens classified as <em>operators</em> or <em>operands</em>.</p>
+
+  <h3>Basic Measures</h3>
+  <div class="def-list">
+    <div class="def-item">
+      <span class="def-term">η₁ (eta1)</span>
+      <span class="def-desc">Number of distinct operators in the program.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">η₂ (eta2)</span>
+      <span class="def-desc">Number of distinct operands in the program.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">N₁</span>
+      <span class="def-desc">Total number of operator occurrences.</span>
+    </div>
+    <div class="def-item">
+      <span class="def-term">N₂</span>
+      <span class="def-desc">Total number of operand occurrences.</span>
+    </div>
+  </div>
+
+  <div class="formula">
+    <span class="comment">// Vocabulary and Length</span>
+    <br>Vocabulary  <span class="var">η</span> <span class="eq">=</span> <span class="var">η₁</span> <span class="eq">+</span> <span class="var">η₂</span>
+    <br>Length      <span class="var">N</span> <span class="eq">=</span> <span class="var">N₁</span> <span class="eq">+</span> <span class="var">N₂</span>
+    <br>
+    <br><span class="comment">// Program Volume</span>
+    <br>Volume      <span class="var">V</span> <span class="eq">=</span> <span class="var">N</span> <span class="eq">×</span> log₂(<span class="var">η</span>)
+    <br>
+    <br><span class="comment">// Difficulty and Effort</span>
+    <br>Difficulty  <span class="var">D</span> <span class="eq">=</span> (<span class="var">η₁</span><span class="eq">/</span>2) <span class="eq">×</span> (<span class="var">N₂</span><span class="eq">/</span><span class="var">η₂</span>)
+    <br>Effort      <span class="var">E</span> <span class="eq">=</span> <span class="var">V</span> <span class="eq">×</span> <span class="var">D</span>  &nbsp;<span class="comment">// mental discriminations required</span>
+    <br>
+    <br><span class="comment">// Time to implement</span>
+    <br>Time        <span class="var">T</span> <span class="eq">=</span> <span class="var">E</span> <span class="eq">/</span> <span class="val">S</span>  &nbsp;<span class="comment">// S = 18 (empirical Stroud number)</span>
+    <br>
+    <br><span class="comment">// Estimated Length</span>
+    <br>N̂ <span class="eq">=</span> <span class="var">η₁</span> <span class="eq">×</span> log₂(<span class="var">η₁</span>) <span class="eq">+</span> <span class="var">η₂</span> <span class="eq">×</span> log₂(<span class="var">η₂</span>)
+  </div>
+
+  <div class="highlight-box" data-type="Key Insight">
+    <p>Operators for ANSI C include: arithmetic (<code>+ - * /</code>), logical (<code>&amp;&amp; ||</code>), comparison (<code>== != &lt; &gt;</code>), assignment (<code>= += -=</code>), and keywords (<code>IF ELSE WHILE FOR RETURN</code> etc.). <strong>Variable names in declarations are NOT operands</strong> — only variables used in expressions count.</p>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 14 ══════════════════ -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <span class="section-num">14</span>
+    <h2 class="section-title">Agile Development <em>Model</em></h2>
+  </div>
+
+  <p>Agile is a group of development methods based on <strong>iterative and incremental</strong> approaches where requirements and solutions evolve through collaboration between self-organizing, cross-functional teams. The <strong>Agile Manifesto</strong> was introduced in 2001 by 17 individuals (The Agile Alliance).</p>
+
+  <div class="highlight-box" data-type="Agile Values (Manifesto)">
+    <p><strong>Individuals and interactions</strong> over processes and tools · <strong>Working software</strong> over comprehensive documentation · <strong>Customer collaboration</strong> over contract negotiation · <strong>Responding to change</strong> over following a plan.</p>
+  </div>
+
+  <h3>12 Agile Principles</h3>
+  <ul class="principle-list">
+    <li>Satisfy the customer through early and <em>continuous delivery</em> of valuable software</li>
+    <li><em>Welcome changing requirements</em>, even late in development</li>
+    <li>Deliver working software <em>frequently</em> (weeks to months, prefer shorter)</li>
+    <li>Business people and developers must work <em>together daily</em></li>
+    <li>Build projects around <em>motivated individuals</em>; give them support and trust</li>
+    <li>Most efficient communication is <em>face-to-face</em></li>
+    <li><em>Working software</em> is the primary measure of progress</li>
+    <li>Agile promotes <em>sustainable development</em> — constant pace indefinitely</li>
+    <li>Continuous attention to <em>technical excellence and good design</em></li>
+    <li>Simplicity — maximizing the amount of work <em>not done</em> — is essential</li>
+    <li>Best architectures emerge from <em>self-organizing teams</em></li>
+    <li>Team reflects regularly on how to become <em>more effective</em> and adjusts</li>
+  </ul>
+
+  <h3>Agile Development Models</h3>
+  <div class="tags">
+    <span class="tag tag-red">Crystal</span>
+    <span class="tag tag-blue">Feature-Driven Development (FDD)</span>
+    <span class="tag tag-green">Scrum</span>
+    <span class="tag tag-red">Extreme Programming (XP)</span>
+    <span class="tag tag-blue">Lean Development</span>
+    <span class="tag tag-green">Unified Process</span>
+  </div>
+
+  <hr class="rule">
+  <h3>Scrum (Most Widely Used)</h3>
+  <p>Scrum is a <strong>lightweight process framework</strong> for agile development. Lightweight = process overhead kept minimal to maximize productive time.</p>
+
+  <div class="card-grid">
+    <div class="card" data-label="Core Concept">
+      <h4>Sprint</h4>
+      <p>Actual time period (typically 2 weeks; range: 1 week – 1 month) when the scrum team works to finish an increment. More complex work = shorter sprint. Scope can be re-negotiated during a sprint. All events occur within the sprint. Duration must remain <em>consistent</em> throughout development.</p>
+    </div>
+    <div class="card" data-label="Roles">
+      <h4>Scrum Roles</h4>
+      <ul>
+        <li><strong>Product Owner</strong> — manages product backlog</li>
+        <li><strong>Scrum Master</strong> — facilitates the process</li>
+        <li><strong>Development Team</strong> — self-organizing, cross-functional</li>
+      </ul>
+    </div>
+    <div class="card" data-label="Events">
+      <h4>Scrum Events</h4>
+      <ul>
+        <li>Sprint Planning</li>
+        <li>Daily Standup</li>
+        <li>Sprint Review</li>
+        <li>Sprint Retrospective</li>
+      </ul>
+    </div>
+    <div class="card" data-label="Artifacts">
+      <h4>Scrum Artifacts</h4>
+      <ul>
+        <li>Product Backlog</li>
+        <li>Sprint Backlog</li>
+        <li>Increment (working software)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 15 ══════════════════ -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <span class="section-num">15</span>
+    <h2 class="section-title"><em>DevOps</em></h2>
+  </div>
+
+  <p><strong>DevOps</strong> combines development (Dev) and operations (Ops) to increase efficiency, speed, and security of software development and delivery. It automates and streamlines the SDLC so code moves from development to production quickly, reliably, and securely.</p>
+
+  <h3>Phases of the DevOps Lifecycle</h3>
+  <div class="timeline">
+    <div class="phase"><div class="phase-name">Plan</div><div class="phase-desc">Jira, Confluence, Trello</div></div>
+    <div class="phase"><div class="phase-name">Code</div><div class="phase-desc">Git, GitHub, GitLab</div></div>
+    <div class="phase"><div class="phase-name">Build</div><div class="phase-desc">Jenkins, Maven, Docker</div></div>
+    <div class="phase"><div class="phase-name">Test</div><div class="phase-desc">Selenium, JUnit, SonarQube</div></div>
+    <div class="phase"><div class="phase-name">Release</div><div class="phase-desc">Git tags, Jenkins</div></div>
+    <div class="phase"><div class="phase-name">Deploy</div><div class="phase-desc">K8s, Ansible, ArgoCD</div></div>
+    <div class="phase"><div class="phase-name">Operate & Monitor</div><div class="phase-desc">Prometheus, Grafana</div></div>
+  </div>
+
+  <h3>Deployment Strategies</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Strategy">
+      <h4>Blue-Green Deployment</h4>
+      <p>Two identical environments. Traffic is switched between them for a seamless update with zero downtime. Rollback = switch back.</p>
+    </div>
+    <div class="card" data-label="Strategy">
+      <h4>Canary Deployment</h4>
+      <p>New version released to a <em>small percentage</em> of users first. Validates changes safely before full rollout.</p>
+    </div>
+    <div class="card" data-label="Strategy">
+      <h4>Rolling Updates</h4>
+      <p>Update is gradually pushed out to all users. Instances are updated one at a time. Minimal downtime.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule-thick">
+
+<!-- ══════════════════ 16 ══════════════════ -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <span class="section-num">16</span>
+    <h2 class="section-title">CI/CD — <em>Continuous Integration &amp; Delivery</em></h2>
+  </div>
+
+  <p><strong>CI/CD</strong> is the backbone of modern DevOps, bridging development and operations by automating building, testing, and deployment. It transforms software release from a high-stress monthly event into a routine, non-event happening multiple times daily.</p>
+
+  <h3>The Three Pillars</h3>
+  <div class="card-grid">
+    <div class="card" data-label="Pillar 1">
+      <h4>Continuous Integration (CI)</h4>
+      <p><strong>Goal:</strong> Prevent "Integration Hell."</p>
+      <p>Developers merge to main branch daily. Automated system builds code and runs unit tests on every commit. Failed tests → build rejected → developer notified immediately.</p>
+    </div>
+    <div class="card" data-label="Pillar 2">
+      <h4>Continuous Delivery (CD)</h4>
+      <p><strong>Goal:</strong> Be ready to release at any moment.</p>
+      <p>Code is automatically deployed to staging/testing after CI passes. Integration and load tests run. Codebase always in a deployable state, but production push is a <em>manual decision</em>.</p>
+    </div>
+    <div class="card" data-label="Pillar 3">
+      <h4>Continuous Deployment (CD)</h4>
+      <p><strong>Goal:</strong> Eliminate human intervention.</p>
+      <p>If all automated tests pass in staging, code is <em>automatically deployed to production</em>. Requires extremely robust, trustworthy automated test suites.</p>
+    </div>
+  </div>
+
+  <h3>Before vs. After CI/CD</h3>
+  <table class="styled-table">
+    <tr><th>Aspect</th><th>Before CI/CD</th><th>After CI/CD</th></tr>
+    <tr><td>Branch Strategy</td><td>Separate branches for weeks/months</td><td>Frequent commits to shared main branch</td></tr>
+    <tr><td>Testing</td><td>Manual, at end of cycle</td><td>Automated, on every commit</td></tr>
+    <tr><td>Bug Detection</td><td>Late & costly to fix</td><td>Early & cheap to fix</td></tr>
+    <tr><td>Deployment</td><td>Days/weeks, risky big releases</td><td>Hours, small frequent updates</td></tr>
+    <tr><td>Rollback</td><td>Difficult</td><td>Easy</td></tr>
+    <tr><td>Teams</td><td>Dev / Test / Ops siloed</td><td>Collaborative, shared pipeline</td></tr>
+  </table>
+
+  <h3>Popular CI/CD Tools</h3>
+  <div class="tags">
+    <span class="tag tag-red">GitHub Actions</span>
+    <span class="tag tag-blue">Jenkins</span>
+    <span class="tag tag-green">CircleCI</span>
+    <span class="tag tag-red">Travis CI</span>
+    <span class="tag tag-blue">GitLab CI/CD</span>
+    <span class="tag tag-green">Bamboo</span>
+    <span class="tag tag-red">Docker</span>
+    <span class="tag tag-blue">Kubernetes</span>
+  </div>
+
+  <div class="highlight-box" data-type="Why CI/CD Matters">
+    <p>CI/CD <strong>accelerates software delivery</strong>, reduces downtime, improves product quality through automation, enables faster response to user needs, creates quicker feedback loops with stakeholders — aiming for <em>high-speed, high-quality software development</em>.</p>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <span>SOFTWARE ENGINEERING</span> · CSML301A1 · Complete Study Reference · All topics from syllabus
+</footer>
+
+<button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ TOP</button>
+
+<script>
+  // Scroll reveal for sections
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07 });
+  sections.forEach(s => observer.observe(s));
+
+  // Show/hide scroll-to-top
+  window.addEventListener('scroll', () => {
+    document.getElementById('top-btn').classList.toggle('show', window.scrollY > 400);
+  });
+</script>
+</body>
+</html>
