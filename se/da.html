@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analytics — Complete Exam Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1f2d47;
+    --accent1: #3b82f6;
+    --accent2: #06b6d4;
+    --accent3: #8b5cf6;
+    --accent4: #10b981;
+    --accent5: #f59e0b;
+    --accent6: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --formula-bg: #0d1b2e;
+    --highlight: #fbbf24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed; top: 0; left: 0;
+    width: 270px; height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; z-index: 100;
+    display: flex; flex-direction: column;
+  }
+  #sidebar-header {
+    padding: 20px 18px 14px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg,#0a0e1a,#111827);
+  }
+  #sidebar-header h1 {
+    font-size: 13px; font-weight: 700; color: var(--accent2);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  #sidebar-header p { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .nav-module {
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-module-btn {
+    width: 100%; text-align: left;
+    padding: 12px 18px;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-muted); font-family: 'Sora', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 10px;
+    transition: color .2s, background .2s;
+  }
+  .nav-module-btn:hover { color: var(--text); background: var(--surface2); }
+  .nav-module-btn.active { color: var(--accent2); }
+  .nav-module-btn .mod-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; flex-shrink: 0;
+  }
+  .nav-sub {
+    padding: 0 0 8px 0;
+    display: none;
+  }
+  .nav-sub.open { display: block; }
+  .nav-sub a {
+    display: block; padding: 6px 18px 6px 50px;
+    color: var(--text-muted); text-decoration: none;
+    font-size: 12px; transition: color .2s;
+  }
+  .nav-sub a:hover { color: var(--accent1); }
+
+  /* ── MAIN ── */
+  #main {
+    margin-left: 270px;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  #topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,14,26,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  #topbar h2 { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+  .exam-badge {
+    background: linear-gradient(90deg, #ef444422, #ef444411);
+    border: 1px solid #ef444455;
+    color: #f87171; padding: 4px 14px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  }
+
+  /* ── SECTIONS ── */
+  .module-section {
+    display: none; padding: 40px;
+    max-width: 960px;
+  }
+  .module-section.active { display: block; }
+
+  .section-hero {
+    margin-bottom: 36px;
+    padding: 30px 36px;
+    border-radius: 16px;
+    position: relative; overflow: hidden;
+  }
+  .section-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+    opacity: .12;
+  }
+  .section-hero .mod-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; opacity: .7; margin-bottom: 8px;
+  }
+  .section-hero h2 {
+    font-size: 28px; font-weight: 700; line-height: 1.3;
+  }
+  .section-hero p { margin-top: 10px; color: var(--text-muted); font-size: 14px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 16px 22px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; user-select: none;
+  }
+  .card-header h3 { font-size: 15px; font-weight: 600; flex: 1; }
+  .card-header .toggle-icon {
+    color: var(--text-muted); font-size: 18px; transition: transform .3s;
+  }
+  .card-header.open .toggle-icon { transform: rotate(180deg); }
+  .card-body { padding: 22px; display: none; }
+  .card-body.open { display: block; }
+
+  .tag {
+    display: inline-block; padding: 2px 10px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    margin-right: 6px; margin-bottom: 4px;
+  }
+  .tag-concept { background: #3b82f622; color: #93c5fd; border: 1px solid #3b82f644; }
+  .tag-formula { background: #8b5cf622; color: #c4b5fd; border: 1px solid #8b5cf644; }
+  .tag-numerical { background: #10b98122; color: #6ee7b7; border: 1px solid #10b98144; }
+  .tag-exam { background: #f59e0b22; color: #fcd34d; border: 1px solid #f59e0b44; }
+  .tag-python { background: #06b6d422; color: #67e8f9; border: 1px solid #06b6d444; }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--formula-bg);
+    border: 1px solid #1e3a5f;
+    border-left: 4px solid var(--accent3);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #c4b5fd;
+    line-height: 1.8;
+  }
+  .formula-box .formula-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--accent3); margin-bottom: 10px;
+  }
+
+  /* ── SOLVED EXAMPLE ── */
+  .solved-example {
+    background: #0a1a12;
+    border: 1px solid #1a3a2a;
+    border-left: 4px solid var(--accent4);
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin: 16px 0;
+  }
+  .solved-example .ex-title {
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--accent4); margin-bottom: 12px;
+  }
+  .solved-example .step {
+    display: flex; gap: 14px; margin-bottom: 10px; align-items: flex-start;
+  }
+  .solved-example .step-num {
+    width: 26px; height: 26px; flex-shrink: 0;
+    background: var(--accent4); color: #000;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .solved-example .step-content { flex: 1; font-size: 14px; }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%; border-collapse: collapse; margin: 16px 0;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: var(--surface2);
+    padding: 10px 14px; text-align: left;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-muted);
+    border-bottom: 2px solid var(--border);
+  }
+  .data-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .data-table tr:hover td { background: var(--surface2); }
+  .data-table .total-row td { font-weight: 700; color: var(--accent2); background: var(--surface2); }
+
+  /* ── EXAM QUESTIONS ── */
+  .exam-q {
+    background: #1a1200;
+    border: 1px solid #3a2800;
+    border-left: 4px solid var(--accent5);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 10px 0;
+  }
+  .exam-q .q-text { font-size: 14px; color: var(--text); }
+  .exam-q .q-marks {
+    font-size: 12px; color: var(--accent5); font-weight: 600;
+    margin-top: 6px; font-family: 'JetBrains Mono', monospace;
+  }
+  .exam-q .q-hint {
+    font-size: 12px; color: var(--text-muted); margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ── DEFINITION BOX ── */
+  .def-box {
+    background: #0e1525;
+    border: 1px solid #1e3050;
+    border-left: 4px solid var(--accent1);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .def-box strong { color: var(--accent1); }
+
+  /* ── WARNING / NOTE ── */
+  .note-box {
+    background: #1a0e00;
+    border: 1px solid #3a2200;
+    border-radius: 8px; padding: 12px 18px;
+    margin: 12px 0; font-size: 13px; color: #fcd34d;
+  }
+  .note-box::before { content: "⚠ NOTE: "; font-weight: 700; }
+
+  /* ── GRID ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  .mini-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .mini-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .mini-card p { font-size: 12px; color: var(--text-muted); }
+
+  /* ── CODE ── */
+  pre {
+    background: #060d16;
+    border: 1px solid #1a2d4a;
+    border-radius: 8px; padding: 18px;
+    overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; line-height: 1.8; color: #94d8ff;
+    margin: 14px 0;
+  }
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .st { color: #c3e88d; }
+  .cm { color: #546e7a; }
+  .num { color: #f78c6c; }
+
+  /* ── HIGHLIGHT ── */
+  .hl { color: var(--highlight); font-weight: 600; }
+  .hl-green { color: var(--accent4); font-weight: 600; }
+  .hl-blue { color: var(--accent2); font-weight: 600; }
+  .hl-purple { color: var(--accent3); font-weight: 600; }
+
+  /* scroll */
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #sidebar { width: 220px; }
+    #main { margin-left: 220px; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .module-section { padding: 20px; }
+  }
+
+  ul.bullet-list { padding-left: 22px; }
+  ul.bullet-list li { margin-bottom: 6px; font-size: 14px; color: var(--text-muted); }
+  ul.bullet-list li strong { color: var(--text); }
+
+  .vs-table { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0; }
+  .vs-side { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .vs-side h4 { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+
+  .progress-bar { height: 3px; border-radius: 2px; margin-top: 4px; }
+
+  .big-number { font-size: 36px; font-weight: 700; line-height: 1; }
+  .big-label { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <h1>Data Analytics</h1>
+    <p>CS1742 · SMU B.Tech CSE · Exam Ready</p>
+  </div>
+
+  <div class="nav-module">
+    <button class="nav-module-btn active" onclick="showModule('m1', this)">
+      <span class="mod-num" style="background:#3b82f622;color:#93c5fd;">1</span>
+      Introduction to DA
+    </button>
+    <div class="nav-sub open" id="sub-m1">
+      <a href="#" onclick="scrollTo2('m1-data-types')">Data Types</a>
+      <a href="#" onclick="scrollTo2('m1-bigdata')">Big Data & 5V's</a>
+      <a href="#" onclick="scrollTo2('m1-analytics-types')">Analytics Types</a>
+      <a href="#" onclick="scrollTo2('m1-exam')">Exam Questions</a>
+    </div>
+  </div>
+
+  <div class="nav-module">
+    <button class="nav-module-btn" onclick="showModule('m2', this)">
+      <span class="mod-num" style="background:#06b6d422;color:#67e8f9;">2</span>
+      Statistical Analysis
+    </button>
+    <div class="nav-sub" id="sub-m2">
+      <a href="#" onclick="scrollTo2('m2-central')">Mean / Median / Mode</a>
+      <a href="#" onclick="scrollTo2('m2-dispersion')">Variance & SD</a>
+      <a href="#" onclick="scrollTo2('m2-quartiles')">Quartiles / Percentiles</a>
+      <a href="#" onclick="scrollTo2('m2-correlation')">Correlation</a>
+      <a href="#" onclick="scrollTo2('m2-exam')">Exam Questions</a>
+    </div>
+  </div>
+
+  <div class="nav-module">
+    <button class="nav-module-btn" onclick="showModule('m3', this)">
+      <span class="mod-num" style="background:#8b5cf622;color:#c4b5fd;">3</span>
+      Probabilistic Analysis
+    </button>
+    <div class="nav-sub" id="sub-m3">
+      <a href="#" onclick="scrollTo2('m3-distributions')">Distributions</a>
+      <a href="#" onclick="scrollTo2('m3-bayes')">Bayes' Theorem</a>
+      <a href="#" onclick="scrollTo2('m3-hypothesis')">Hypothesis Testing</a>
+      <a href="#" onclick="scrollTo2('m3-exam')">Exam Questions</a>
+    </div>
+  </div>
+
+  <div class="nav-module">
+    <button class="nav-module-btn" onclick="showModule('m4', this)">
+      <span class="mod-num" style="background:#10b98122;color:#6ee7b7;">4</span>
+      Analytics Methods
+    </button>
+    <div class="nav-sub" id="sub-m4">
+      <a href="#" onclick="scrollTo2('m4-attrs')">Attributes</a>
+      <a href="#" onclick="scrollTo2('m4-cosine')">Cosine Similarity</a>
+      <a href="#" onclick="scrollTo2('m4-kmeans')">K-Means Clustering</a>
+      <a href="#" onclick="scrollTo2('m4-hierarchical')">Hierarchical Clustering</a>
+      <a href="#" onclick="scrollTo2('m4-association')">Association Rules</a>
+      <a href="#" onclick="scrollTo2('m4-missing')">Missing Data</a>
+      <a href="#" onclick="scrollTo2('m4-exam')">Exam Questions</a>
+    </div>
+  </div>
+
+  <div class="nav-module">
+    <button class="nav-module-btn" onclick="showModule('m5', this)">
+      <span class="mod-num" style="background:#f59e0b22;color:#fcd34d;">5</span>
+      Big Data Tools
+    </button>
+    <div class="nav-sub" id="sub-m5">
+      <a href="#" onclick="scrollTo2('m5-hadoop')">Hadoop & HDFS</a>
+      <a href="#" onclick="scrollTo2('m5-nosql')">NoSQL</a>
+      <a href="#" onclick="scrollTo2('m5-spark')">Spark</a>
+      <a href="#" onclick="scrollTo2('m5-exam')">Exam Questions</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main id="main">
+  <div id="topbar">
+    <h2 id="topbar-title">Module 1 — Introduction to Data Analytics</h2>
+    <span class="exam-badge">MAX MARKS: 100</span>
+  </div>
+
+  <!-- ════════════ MODULE 1 ════════════ -->
+  <section class="module-section active" id="m1">
+    <div class="section-hero" style="--hero-a:#3b82f6;--hero-b:#1d4ed8;">
+      <div class="mod-label" style="color:#93c5fd;">Module 1</div>
+      <h2>Introduction to Data Analytics</h2>
+      <p>Data types, Big Data, 5 V's, types of analytics — foundational concepts that appear in every exam.</p>
+    </div>
+
+    <!-- Data Types -->
+    <div id="m1-data-types" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📊</span>
+        <h3>Types of Data</h3>
+        <span class="tag tag-concept">Concept</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <p>Data is classified in two ways:</p>
+        <div class="two-col" style="margin-top:16px;">
+          <div class="mini-card">
+            <h4 style="color:var(--accent2);">By Nature (Statistical)</h4>
+            <ul class="bullet-list" style="margin-top:8px;">
+              <li><strong>Qualitative (Categorical)</strong> — describes qualities</li>
+              <li style="margin-left:16px;"><strong>Nominal</strong> — no order (gender, color)</li>
+              <li style="margin-left:16px;"><strong>Ordinal</strong> — ordered (small/medium/large)</li>
+              <li><strong>Quantitative (Numerical)</strong> — numeric values</li>
+              <li style="margin-left:16px;"><strong>Discrete</strong> — countable (students: 0,1,2…)</li>
+              <li style="margin-left:16px;"><strong>Continuous</strong> — any decimal (height, temp)</li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent3);">By Structure (Technical)</h4>
+            <ul class="bullet-list" style="margin-top:8px;">
+              <li><strong>Structured</strong> — tables, SQL, CSV (rigid schema)</li>
+              <li><strong>Semi-Structured</strong> — JSON, XML, HTML (has tags, flexible)</li>
+              <li><strong>Unstructured</strong> — images, video, social media, PDFs (no format)</li>
+            </ul>
+          </div>
+        </div>
+
+        <table class="data-table" style="margin-top:16px;">
+          <tr><th>Scenario</th><th>Data Type</th><th>Sub-Category</th></tr>
+          <tr><td>Customer Name</td><td>Qualitative</td><td>Nominal</td></tr>
+          <tr><td>Star Rating (1–5)</td><td>Qualitative</td><td>Ordinal</td></tr>
+          <tr><td>Number of Muffins</td><td>Quantitative</td><td>Discrete</td></tr>
+          <tr><td>Weight of Coffee Beans</td><td>Quantitative</td><td>Continuous</td></tr>
+          <tr><td>CCTV Video</td><td>Unstructured</td><td>N/A</td></tr>
+        </table>
+
+        <div class="def-box">
+          <strong>Why it matters:</strong> Bar charts for Nominal/Ordinal data; Histograms for Continuous data. SQL for Structured; NoSQL/AI for Unstructured. Quantitative data needs <em>scaling</em>; Qualitative data needs <em>encoding</em> before ML.
+        </div>
+      </div>
+    </div>
+
+    <!-- Big Data -->
+    <div id="m1-bigdata" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🌐</span>
+        <h3>Big Data — The 5 V's</h3>
+        <span class="tag tag-exam">High Yield</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Big Data</strong> refers to extremely large, fast, and complex datasets that traditional data-processing tools (RDBMS) cannot handle efficiently.
+        </div>
+
+        <div class="three-col" style="margin-top:16px;">
+          <div class="mini-card">
+            <div class="big-number" style="color:#3b82f6;">V₁</div>
+            <h4 style="color:#93c5fd;">Volume</h4>
+            <p>Massive amount — TBs to PBs. Traditional systems handle GBs only.</p>
+          </div>
+          <div class="mini-card">
+            <div class="big-number" style="color:#06b6d4;">V₂</div>
+            <h4 style="color:#67e8f9;">Velocity</h4>
+            <p>Data generated & processed at high speed — real-time or near real-time.</p>
+          </div>
+          <div class="mini-card">
+            <div class="big-number" style="color:#8b5cf6;">V₃</div>
+            <h4 style="color:#c4b5fd;">Variety</h4>
+            <p>Structured (tables), Semi-structured (JSON/XML), Unstructured (text/video).</p>
+          </div>
+          <div class="mini-card">
+            <div class="big-number" style="color:#ef4444;">V₄</div>
+            <h4 style="color:#fca5a5;">Veracity</h4>
+            <p>Quality, accuracy, uncertainty & noise in data — trustworthiness.</p>
+          </div>
+          <div class="mini-card">
+            <div class="big-number" style="color:#10b981;">V₅</div>
+            <h4 style="color:#6ee7b7;">Value</h4>
+            <p>Useful insights extracted — the whole point of processing big data.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <h4 style="margin-bottom:10px;">Big Data Architecture (High Level)</h4>
+          <div style="display:flex;gap:0;align-items:center;flex-wrap:wrap;margin-top:8px;">
+            <div style="background:#1a2a3a;border:1px solid #2a4a6a;border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;">📡 Sources<br><span style="color:var(--text-muted);font-size:10px;">IoT, social, transactions</span></div>
+            <div style="color:var(--accent1);padding:0 8px;font-size:18px;">→</div>
+            <div style="background:#1a2a3a;border:1px solid #2a4a6a;border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;">📥 Ingestion<br><span style="color:var(--text-muted);font-size:10px;">Batch / Stream</span></div>
+            <div style="color:var(--accent1);padding:0 8px;font-size:18px;">→</div>
+            <div style="background:#1a2a3a;border:1px solid #2a4a6a;border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;">💾 Storage<br><span style="color:var(--text-muted);font-size:10px;">HDFS / NoSQL</span></div>
+            <div style="color:var(--accent1);padding:0 8px;font-size:18px;">→</div>
+            <div style="background:#1a2a3a;border:1px solid #2a4a6a;border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;">⚙️ Processing<br><span style="color:var(--text-muted);font-size:10px;">MapReduce / Spark</span></div>
+            <div style="color:var(--accent1);padding:0 8px;font-size:18px;">→</div>
+            <div style="background:#1a2a3a;border:1px solid #2a4a6a;border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;">📈 Analytics<br><span style="color:var(--text-muted);font-size:10px;">ML, Statistics</span></div>
+            <div style="color:var(--accent1);padding:0 8px;font-size:18px;">→</div>
+            <div style="background:#1a2a3a;border:1px solid #2a4a6a;border-radius:8px;padding:10px 14px;font-size:12px;text-align:center;">📊 Visualization<br><span style="color:var(--text-muted);font-size:10px;">Reports, Dashboards</span></div>
+          </div>
+        </div>
+
+        <table class="data-table" style="margin-top:16px;">
+          <tr><th>Aspect</th><th>Traditional Data</th><th>Big Data</th></tr>
+          <tr><td>Size</td><td>GBs</td><td>TBs – PBs</td></tr>
+          <tr><td>Speed</td><td>Slow batch</td><td>Real-time</td></tr>
+          <tr><td>Format</td><td>Structured only</td><td>All formats</td></tr>
+          <tr><td>Tools</td><td>RDBMS (SQL)</td><td>Distributed systems</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Analytics Types -->
+    <div id="m1-analytics-types" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🔍</span>
+        <h3>Types of Analytics</h3>
+        <span class="tag tag-concept">Theory</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="three-col">
+          <div class="mini-card" style="border-top:3px solid var(--accent1);">
+            <h4 style="color:var(--accent1);">Descriptive</h4>
+            <p style="font-size:11px;color:#fcd34d;font-weight:600;margin-bottom:6px;">"What happened?"</p>
+            <p>Summarizes past/current events. Bar charts, reports, dashboards. <em>Eg: Which products sold most last quarter?</em></p>
+          </div>
+          <div class="mini-card" style="border-top:3px solid var(--accent4);">
+            <h4 style="color:var(--accent4);">Predictive</h4>
+            <p style="font-size:11px;color:#fcd34d;font-weight:600;margin-bottom:6px;">"What will happen?"</p>
+            <p>Uses ML/regression to forecast. <em>Eg: Which customers will churn next month?</em></p>
+          </div>
+          <div class="mini-card" style="border-top:3px solid var(--accent3);">
+            <h4 style="color:var(--accent3);">Prescriptive</h4>
+            <p style="font-size:11px;color:#fcd34d;font-weight:600;margin-bottom:6px;">"What should we do?"</p>
+            <p>Most advanced. Recommends optimal action. <em>Eg: Best delivery routes using optimization.</em></p>
+          </div>
+        </div>
+        <div class="mini-card" style="margin-top:14px;border-top:3px solid var(--accent5);">
+          <h4 style="color:var(--accent5);">Diagnostic Analytics</h4>
+          <p style="font-size:11px;color:#fcd34d;font-weight:600;margin-bottom:4px;">"Why did it happen?"</p>
+          <p style="font-size:13px;">Examines causes by drilling down — root cause analysis of anomalies in descriptive results.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam Questions M1 -->
+    <div id="m1-exam" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📝</span>
+        <h3>Likely Exam Questions — Module 1 (20 marks)</h3>
+        <span class="tag tag-exam">Exam Prep</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="exam-q">
+          <div class="q-text">Q1(a). List and explain the five V's of Big Data with examples. [5]</div>
+          <div class="q-hint">→ Write Volume, Velocity, Variety, Veracity, Value — one para each with real-world example</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q1(b). Explain the types of data with classification by nature and structure. Give Python examples. [10]</div>
+          <div class="q-hint">→ Qualitative/Quantitative + Structured/Semi/Unstructured + python dtype examples</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q2. Differentiate between Descriptive, Predictive, and Prescriptive Analytics with examples. [10]</div>
+          <div class="q-hint">→ Table comparison + one paragraph each + real industry examples</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q3. What is Big Data? Compare traditional data vs Big Data. Explain its architecture. [10]</div>
+          <div class="q-hint">→ Definition + comparison table + 6-layer architecture diagram</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q4. What is the Data Life Cycle? Explain each phase. [5]</div>
+          <div class="q-hint">→ Collection → Processing → Analysis → Visualization → Decision → Storage</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ MODULE 2 ════════════ -->
+  <section class="module-section" id="m2">
+    <div class="section-hero" style="--hero-a:#06b6d4;--hero-b:#0891b2;">
+      <div class="mod-label" style="color:#67e8f9;">Module 2</div>
+      <h2>Statistical Analysis</h2>
+      <p>Mean, Median, Mode, Variance, SD, Quartiles, Percentiles, Deciles, Correlation — all with solved numericals.</p>
+    </div>
+
+    <!-- Central Tendency -->
+    <div id="m2-central" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📐</span>
+        <h3>Measures of Central Tendency</h3>
+        <span class="tag tag-formula">Formulas</span>
+        <span class="tag tag-numerical">Numericals</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <!-- MEAN -->
+        <h4 style="color:var(--accent2);margin-bottom:10px;">① MEAN (Average)</h4>
+        <div class="formula-box">
+          <div class="formula-title">Formula</div>
+          For raw data:  x̄ = (Σx) / n<br>
+          For grouped data (frequency):  x̄ = (Σf·x) / (Σf)
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Find Mean from Exam Paper Data</div>
+          <p style="font-size:13px;margin-bottom:12px;">Data: 3, 13, 11, 11, 5, 4, 2</p>
+          <div class="step"><div class="step-num">1</div><div class="step-content">Sort: 2, 3, 4, 5, 11, 11, 13</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">Sum = 2+3+4+5+11+11+13 = <span class="hl">49</span></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">n = 7; Mean = 49 / 7 = <span class="hl-green">7</span></div></div>
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Mean from Frequency Table (from lecture)</div>
+          <table class="data-table">
+            <tr><th>Class</th><th>f</th><th>x (midpoint)</th><th>f·x</th></tr>
+            <tr><td>0–10</td><td>5</td><td>5</td><td>25</td></tr>
+            <tr><td>10–20</td><td>9</td><td>15</td><td>135</td></tr>
+            <tr><td>20–30</td><td>14</td><td>25</td><td>350</td></tr>
+            <tr><td>30–40</td><td>8</td><td>35</td><td>280</td></tr>
+            <tr><td>40–50</td><td>4</td><td>45</td><td>180</td></tr>
+            <tr class="total-row"><td>Total</td><td>40</td><td>—</td><td>970</td></tr>
+          </table>
+          <p style="margin-top:10px;">Mean = 970 / 40 = <span class="hl-green">24.25</span></p>
+        </div>
+        <div class="note-box">Mean is affected by outliers. Use Median for skewed data!</div>
+
+        <!-- MEDIAN -->
+        <h4 style="color:var(--accent2);margin:24px 0 10px;">② MEDIAN (Middle Value)</h4>
+        <div class="formula-box">
+          <div class="formula-title">Formula</div>
+          Odd n:   Median = value at position (n+1)/2<br>
+          Even n:  Median = average of n/2 and (n/2 + 1) positions<br><br>
+          Grouped: Median = L + [(n/2 − cf) / f] × h<br>
+          where L=lower boundary, cf=cumulative freq before, f=freq of median class, h=class width
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Data 3, 13, 11, 11, 5, 4, 2</div>
+          <div class="step"><div class="step-num">1</div><div class="step-content">Sort: 2, 3, 4, <span class="hl">5</span>, 11, 11, 13 → n=7 (odd)</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">Position = (7+1)/2 = 4th value → Median = <span class="hl-green">5</span></div></div>
+        </div>
+
+        <!-- MODE -->
+        <h4 style="color:var(--accent2);margin:24px 0 10px;">③ MODE (Most Frequent)</h4>
+        <div class="formula-box">
+          <div class="formula-title">Formula (Grouped)</div>
+          Mode = L + [f₁ − f₀) / (2f₁ − f₀ − f₂)] × h<br>
+          where f₁=modal freq, f₀=prev freq, f₂=next freq
+        </div>
+        <p style="font-size:14px;margin-top:8px;">For raw data 3,13,11,11,5,4,2 → <strong>11</strong> appears twice → Mode = <span class="hl-green">11</span></p>
+
+        <!-- Frequency Table Q5 from exam -->
+        <div style="margin-top:24px;">
+          <h4 style="color:var(--accent5);margin-bottom:12px;">★ EXAM Q5(a) — Fully Solved (Table 3)</h4>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Given frequency distribution: Calculate Mean, Median, Mode, SD, Variance, Range</p>
+          <table class="data-table">
+            <tr><th>Value (x)</th><th>f</th><th>cf</th><th>f·x</th><th>f·x²</th></tr>
+            <tr><td>8</td><td>7</td><td>7</td><td>56</td><td>448</td></tr>
+            <tr><td>9</td><td>10</td><td>17</td><td>90</td><td>810</td></tr>
+            <tr><td>10</td><td>21</td><td>38</td><td>210</td><td>2100</td></tr>
+            <tr><td>11</td><td>23</td><td>61</td><td>253</td><td>2783</td></tr>
+            <tr><td>12</td><td>14</td><td>75</td><td>168</td><td>2016</td></tr>
+            <tr><td>13</td><td>8</td><td>83</td><td>104</td><td>1352</td></tr>
+            <tr class="total-row"><td>Total</td><td>83</td><td>—</td><td>881</td><td>9509</td></tr>
+          </table>
+          <div class="solved-example" style="margin-top:12px;">
+            <div class="ex-title">✦ Full Solution</div>
+            <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Mean</strong> = Σfx / Σf = 881/83 = <span class="hl-green">10.61</span></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Median</strong>: n/2 = 41.5. cf=38 at x=10, cf=61 at x=11. 41st value falls at x=11. <span class="hl-green">Median = 11</span></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Mode</strong>: Highest frequency = 23 at x=11. <span class="hl-green">Mode = 11</span></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Variance</strong> = Σfx²/Σf − (x̄)² = 9509/83 − (10.61)² = 114.57 − 112.57 = <span class="hl-green">1.999 ≈ 2</span></div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-content"><strong>Std Dev</strong> = √2 = <span class="hl-green">1.414</span></div></div>
+            <div class="step"><div class="step-num">6</div><div class="step-content"><strong>Range</strong> = Max − Min = 13 − 8 = <span class="hl-green">5</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Variance & SD -->
+    <div id="m2-dispersion" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📏</span>
+        <h3>Variance & Standard Deviation</h3>
+        <span class="tag tag-formula">Formulas</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="formula-box">
+          <div class="formula-title">Formulas</div>
+          Population Variance:  σ² = Σ(x − x̄)² / N<br>
+          Sample Variance:      s² = Σ(x − x̄)² / (n−1)<br>
+          Standard Deviation:   σ  = √(Variance)<br><br>
+          Shortcut:  σ² = (Σx²/n) − (x̄)²
+        </div>
+        <div class="two-col" style="margin:14px 0;">
+          <div class="mini-card">
+            <h4 style="color:var(--accent4);">Population Variance</h4>
+            <ul class="bullet-list"><li>Uses entire population</li><li>Denominator: N</li><li>Exact variability</li><li>Used in census data</li></ul>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent3);">Sample Variance</h4>
+            <ul class="bullet-list"><li>Uses a sample</li><li>Denominator: n−1 (Bessel's correction)</li><li>Estimates population variability</li><li>Used in surveys/experiments</li></ul>
+          </div>
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Variance of 2, 4, 6</div>
+          <div class="step"><div class="step-num">1</div><div class="step-content">Mean = (2+4+6)/3 = <strong>4</strong></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">Deviations: (2−4)²=4, (4−4)²=0, (6−4)²=4</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">σ² = (4+0+4)/3 = <span class="hl-green">8/3 ≈ 2.67</span></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">σ = √2.67 = <span class="hl-green">1.63</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quartiles / Percentiles / Deciles -->
+    <div id="m2-quartiles" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🎯</span>
+        <h3>Quartiles, Deciles & Percentiles</h3>
+        <span class="tag tag-exam">Exam Paper Q1(b)</span>
+        <span class="tag tag-numerical">Numericals</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="formula-box">
+          <div class="formula-title">Formulas (sorted data, n values)</div>
+          Qᵣ (Quartile r) = value at position  r(n+1)/4<br>
+          Dₖ (Decile k)   = value at position  k(n+1)/10<br>
+          Pₚ (Percentile p) = value at position  p(n+1)/100<br><br>
+          For interpolation: Lₚ + [(p/100 × n) − cf] / f × h
+        </div>
+        <div class="note-box">Always SORT the data first before calculating!</div>
+
+        <div class="solved-example">
+          <div class="ex-title">★ EXAM Q1(b) FULLY SOLVED — Data: 3, 13, 11, 11, 5, 4, 2</div>
+          <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Sort:</strong> 2, 3, 4, 5, 11, 11, 13 → n = 7</div></div>
+          
+          <div class="step"><div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Q₁ (Quartile 1):</strong> Position = 1×(7+1)/4 = 8/4 = <strong>2nd value</strong> = <span class="hl-green">3</span>
+          </div></div>
+
+          <div class="step"><div class="step-num">3</div>
+          <div class="step-content">
+            <strong>D₃ (Decile 3):</strong> Position = 3×(7+1)/10 = 24/10 = 2.4<br>
+            → Value at 2nd + 0.4 × (3rd − 2nd) = 3 + 0.4×(4−3) = 3 + 0.4 = <span class="hl-green">3.4</span>
+          </div></div>
+
+          <div class="step"><div class="step-num">4</div>
+          <div class="step-content">
+            <strong>P₂₀ (Percentile 20):</strong> Position = 20×(7+1)/100 = 160/100 = 1.6<br>
+            → Value at 1st + 0.6 × (2nd − 1st) = 2 + 0.6×(3−2) = 2 + 0.6 = <span class="hl-green">2.6</span>
+          </div></div>
+        </div>
+
+        <table class="data-table" style="margin-top:16px;">
+          <tr><th>Measure</th><th>Divides into</th><th>Count</th><th>Formula</th></tr>
+          <tr><td>Quartile (Q)</td><td>4 equal parts</td><td>Q1, Q2, Q3</td><td>r(n+1)/4</td></tr>
+          <tr><td>Decile (D)</td><td>10 equal parts</td><td>D1 to D9</td><td>k(n+1)/10</td></tr>
+          <tr><td>Percentile (P)</td><td>100 equal parts</td><td>P1 to P99</td><td>p(n+1)/100</td></tr>
+        </table>
+        <div class="def-box">
+          <strong>Note:</strong> Q2 = D5 = P50 = Median. All three are the same value!
+        </div>
+      </div>
+    </div>
+
+    <!-- Correlation -->
+    <div id="m2-correlation" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🔗</span>
+        <h3>Correlation & Regression</h3>
+        <span class="tag tag-exam">Exam Paper Q5(b)</span>
+        <span class="tag tag-formula">Formulas</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Correlation</strong> measures the strength and direction of the linear relationship between two variables.<br>
+          <strong>Regression</strong> finds the equation of the best-fit line to predict one variable from another.
+        </div>
+        <div class="formula-box">
+          <div class="formula-title">Pearson Correlation Coefficient (r)</div>
+          r = [n·Σxy − Σx·Σy] / √{[n·Σx² − (Σx)²] × [n·Σy² − (Σy)²]}<br><br>
+          Range: −1 ≤ r ≤ +1<br>
+          r = +1  → Perfect positive correlation<br>
+          r = −1  → Perfect negative correlation<br>
+          r =  0  → No linear correlation
+        </div>
+        <div class="formula-box" style="border-left-color:var(--accent4);">
+          <div class="formula-title" style="color:var(--accent4);">Linear Regression Line</div>
+          y = a + bx<br>
+          b = [n·Σxy − Σx·Σy] / [n·Σx² − (Σx)²]<br>
+          a = (Σy − b·Σx) / n
+        </div>
+        <div class="def-box">
+          <strong>Relation between Regression and Correlation:</strong><br>
+          b = r × (σy / σx) — The regression slope equals correlation × ratio of standard deviations.<br>
+          r² (coefficient of determination) = proportion of variance in y explained by x.
+        </div>
+
+        <div class="solved-example">
+          <div class="ex-title">★ EXAM Q5(b) FULLY SOLVED — Maths vs English marks</div>
+          <p style="font-size:13px;margin-bottom:12px;">Students: Maths = 95,85,80,70,60 | English = 85,95,70,65,70</p>
+          <table class="data-table">
+            <tr><th>Student</th><th>x (Maths)</th><th>y (English)</th><th>xy</th><th>x²</th><th>y²</th></tr>
+            <tr><td>1</td><td>95</td><td>85</td><td>8075</td><td>9025</td><td>7225</td></tr>
+            <tr><td>2</td><td>85</td><td>95</td><td>8075</td><td>7225</td><td>9025</td></tr>
+            <tr><td>3</td><td>80</td><td>70</td><td>5600</td><td>6400</td><td>4900</td></tr>
+            <tr><td>4</td><td>70</td><td>65</td><td>4550</td><td>4900</td><td>4225</td></tr>
+            <tr><td>5</td><td>60</td><td>70</td><td>4200</td><td>3600</td><td>4900</td></tr>
+            <tr class="total-row"><td>Σ</td><td>390</td><td>385</td><td>30500</td><td>31150</td><td>30275</td></tr>
+          </table>
+          <div class="step" style="margin-top:12px;"><div class="step-num">1</div><div class="step-content">n=5, Σx=390, Σy=385, Σxy=30500, Σx²=31150, Σy²=30275</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">Numerator = 5×30500 − 390×385 = 152500 − 150150 = <strong>2350</strong></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">Denom A = 5×31150 − 390² = 155750 − 152100 = <strong>3650</strong></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">Denom B = 5×30275 − 385² = 151375 − 148225 = <strong>3150</strong></div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-content">r = 2350 / √(3650 × 3150) = 2350 / √11497500 = 2350 / 3391.1 ≈ <span class="hl-green">0.693</span></div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-content"><strong>Interpretation:</strong> r = 0.693 → Moderate positive correlation. Students scoring higher in Maths tend to score higher in English too.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 2 Exam -->
+    <div id="m2-exam" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📝</span><h3>Likely Exam Questions — Module 2 (20 marks)</h3>
+        <span class="tag tag-exam">Exam Prep</span><span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="exam-q">
+          <div class="q-text">Q1(b). Calculate Q1, D3, P20 from: 3, 13, 11, 11, 5, 4, 2 [10]</div>
+          <div class="q-hint">→ Sort first! Use r(n+1)/4 for Q, k(n+1)/10 for D, p(n+1)/100 for P. Interpolate if decimal.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q5(a). Calculate Mean, Median, Mode, SD, Variance and Range from Table 3. [10]</div>
+          <div class="q-hint">→ Build Σf, Σfx, Σfx² table. Mean = Σfx/Σf. Variance = Σfx²/Σf − mean². SD = √Variance.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q5(b). What is the relation between Regression and Correlation? Find r for Maths/English marks. [1+9]</div>
+          <div class="q-hint">→ State the relation b = r(σy/σx), then build the 5-column table and apply Pearson's formula.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. Explain Mean, Median, Mode with advantages and disadvantages. When is each used? [10]</div>
+          <div class="q-hint">→ Normal dist → Mean; Skewed data → Median; Most common needed → Mode. Include skewness diagram.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ MODULE 3 ════════════ -->
+  <section class="module-section" id="m3">
+    <div class="section-hero" style="--hero-a:#8b5cf6;--hero-b:#6d28d9;">
+      <div class="mod-label" style="color:#c4b5fd;">Module 3</div>
+      <h2>Probabilistic Analysis</h2>
+      <p>Probability distributions, Bayes' theorem, Hypothesis testing (Z-test, t-test, Chi-Square, ANOVA).</p>
+    </div>
+
+    <!-- Distributions -->
+    <div id="m3-distributions" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📈</span><h3>Probability Distributions</h3>
+        <span class="tag tag-concept">Theory</span><span class="tag tag-formula">Formulas</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="three-col">
+          <div class="mini-card" style="border-top:3px solid var(--accent1);">
+            <h4 style="color:var(--accent1);">Normal Distribution</h4>
+            <p>Bell-shaped, symmetric. Mean = Median = Mode.<br>
+            <strong>68-95-99.7 Rule:</strong><br>
+            68% within ±1σ<br>95% within ±2σ<br>99.7% within ±3σ</p>
+          </div>
+          <div class="mini-card" style="border-top:3px solid var(--accent4);">
+            <h4 style="color:var(--accent4);">Binomial Distribution</h4>
+            <p>n independent trials, each success prob = p.<br>P(X=k) = C(n,k)·pᵏ·(1−p)ⁿ⁻ᵏ<br>Mean = np<br>Variance = np(1−p)</p>
+          </div>
+          <div class="mini-card" style="border-top:3px solid var(--accent3);">
+            <h4 style="color:var(--accent3);">Poisson Distribution</h4>
+            <p>Rare events, P(X=k) = e⁻λ·λᵏ/k!<br>Mean = λ<br>Variance = λ<br>Use when events/time are counted.</p>
+          </div>
+        </div>
+        <div class="formula-box" style="margin-top:16px;">
+          <div class="formula-title">Quick Reference — Distributions</div>
+          Bernoulli: single trial, P(X=1) = p, Mean=p, Var=p(1−p)<br>
+          Binomial:  n trials, Mean=np, Var=np(1−p)<br>
+          Poisson:   rare events, Mean=λ, Var=λ<br>
+          Exponential: waiting time, Mean=1/λ, Var=1/λ²<br>
+          Normal:    continuous, Mean=μ, Var=σ²
+        </div>
+
+        <h4 style="margin:20px 0 10px;color:var(--accent5);">68-95-99.7 Rule (Empirical Rule)</h4>
+        <div class="def-box">
+          If μ=60, σ=10 (exam scores):<br>
+          68% score between 50 and 70<br>
+          95% score between 40 and 80<br>
+          99.7% score between 30 and 90<br>
+          Outlier: score &lt; 30 or &gt; 90 is very rare (&lt;0.3%)
+        </div>
+      </div>
+    </div>
+
+    <!-- Bayes -->
+    <div id="m3-bayes" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🔮</span><h3>Bayes' Theorem</h3>
+        <span class="tag tag-numerical">Numericals</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="formula-box">
+          <div class="formula-title">Bayes' Formula</div>
+          P(A|B) = [P(B|A) × P(A)] / P(B)<br><br>
+          Where: P(B) = Σ P(B|Aᵢ) × P(Aᵢ)   ← Law of Total Probability
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Defective Bulb Problem (from lecture)</div>
+          <p style="font-size:13px;margin-bottom:8px;">3 machines produce bulbs: M1=30%,2% defective | M2=40%,3% | M3=30%,5%<br>A defective bulb is found. Find probability it came from M1.</p>
+          <div class="step"><div class="step-num">1</div><div class="step-content">P(M1)=0.3, P(M2)=0.4, P(M3)=0.3</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">P(D|M1)=0.02, P(D|M2)=0.03, P(D|M3)=0.05</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">P(D) = 0.3×0.02 + 0.4×0.03 + 0.3×0.05 = 0.006+0.012+0.015 = <strong>0.033</strong></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">P(M1|D) = (0.3×0.02)/0.033 = 0.006/0.033 = <span class="hl-green">0.182 (18.2%)</span></div></div>
+        </div>
+        <div class="note-box">In Bayes problems: always list Prior probabilities, Likelihoods, compute Total P, then apply formula.</div>
+      </div>
+    </div>
+
+    <!-- Hypothesis Testing -->
+    <div id="m3-hypothesis" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>⚖️</span><h3>Hypothesis Testing — Z-test, t-test, Chi-Square, ANOVA</h3>
+        <span class="tag tag-formula">Formulas</span><span class="tag tag-numerical">Numericals</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <h4 style="color:var(--accent2);margin-bottom:10px;">Z-Test</h4>
+        <div class="def-box">
+          Use Z-test when: n ≥ 30 AND population σ is known.
+        </div>
+        <div class="formula-box">
+          <div class="formula-title">Z-Test Statistic</div>
+          Z = (x̄ − μ₀) / (σ / √n)<br><br>
+          Critical values (two-tailed):  α=0.05 → Z_crit = ±1.96<br>
+                                         α=0.01 → Z_crit = ±2.576<br>
+          One-tailed α=0.05: Z_crit = 1.645
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Bulb Lifetime (from lecture)</div>
+          <p style="font-size:13px;margin-bottom:8px;">Claim: μ=500hrs, σ=50, n=36, x̄=520. Test at 5%.</p>
+          <div class="step"><div class="step-num">1</div><div class="step-content">H₀: μ=500, H₁: μ≠500 (two-tailed)</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">Z = (520−500)/(50/√36) = 20/(50/6) = 20/8.33 = <strong>2.4</strong></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">Critical Z at 5% two-tailed = ±1.96. Since |2.4| > 1.96 → <span class="hl-green">Reject H₀</span></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">Conclusion: Avg lifetime IS significantly different from 500hrs at 5% level.</div></div>
+        </div>
+
+        <h4 style="color:var(--accent2);margin:24px 0 10px;">t-Test</h4>
+        <div class="def-box">Use t-test when: n &lt; 30 OR σ unknown. df = n−1 for one-sample.</div>
+        <div class="formula-box">
+          <div class="formula-title">t-Test Statistic</div>
+          One-sample:  t = (x̄ − μ₀) / (s / √n)   where df = n−1<br>
+          Two-sample:  t = (x̄₁ − x̄₂) / √[sp²(1/n₁ + 1/n₂)]<br>
+          Paired:      t = d̄ / (sd / √n)            where d = differences
+        </div>
+        <div class="two-col">
+          <div class="mini-card"><h4>t-critical (α=0.05, two-tailed)</h4>
+            <table class="data-table"><tr><th>df</th><th>t-crit</th></tr>
+            <tr><td>5</td><td>2.571</td></tr><tr><td>10</td><td>2.228</td></tr>
+            <tr><td>20</td><td>2.086</td></tr><tr><td>30</td><td>2.042</td></tr>
+            <tr><td>∞</td><td>1.960</td></tr></table>
+          </div>
+          <div class="mini-card"><h4>Decision Rule</h4>
+            <p style="font-size:13px;">If |t_calc| > t_critical → Reject H₀<br>If |t_calc| ≤ t_critical → Accept H₀<br><br>p-value &lt; α → Reject H₀</p>
+          </div>
+        </div>
+
+        <h4 style="color:var(--accent2);margin:24px 0 10px;">Chi-Square Test (χ²)</h4>
+        <div class="formula-box">
+          <div class="formula-title">Chi-Square Formula</div>
+          χ² = Σ [(O − E)² / E]<br>
+          df = k − 1  (for goodness of fit; k = number of categories)<br>
+          df = (r−1)(c−1)  (for test of independence; r=rows, c=cols)
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved: Fair Die Test</div>
+          <p style="font-size:13px;margin-bottom:8px;">Die thrown 60 times. Observed: 8,10,9,11,12,10. Is die fair?</p>
+          <div class="step"><div class="step-num">1</div><div class="step-content">Expected each face = 60/6 = 10</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">χ² = (8−10)²/10 + (10−10)²/10 + (9−10)²/10 + (11−10)²/10 + (12−10)²/10 + (10−10)²/10<br>= 0.4+0+0.1+0.1+0.4+0 = <strong>1.0</strong></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">df = 6−1 = 5. Critical χ² at 5% = 11.07</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">1.0 &lt; 11.07 → <span class="hl-green">Accept H₀ → Die is fair</span></div></div>
+        </div>
+
+        <h4 style="color:var(--accent2);margin:24px 0 10px;">ANOVA (Analysis of Variance)</h4>
+        <div class="def-box">Use ANOVA to compare means of <strong>3 or more groups</strong> simultaneously. One-Way (1 factor), Two-Way (2 factors).</div>
+        <div class="formula-box">
+          <div class="formula-title">One-Way ANOVA</div>
+          SSB (Between) = Σnᵢ(x̄ᵢ − x̄_grand)²<br>
+          SSW (Within)  = ΣΣ(xᵢⱼ − x̄ᵢ)²<br>
+          SST = SSB + SSW<br>
+          MSB = SSB / (k−1)     MSW = SSW / (N−k)<br>
+          F = MSB / MSW<br>
+          If F > F_critical → Reject H₀ (groups differ significantly)
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 3 Exam -->
+    <div id="m3-exam" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📝</span><h3>Likely Exam Questions — Module 3 (20 marks)</h3>
+        <span class="tag tag-exam">Exam Prep</span><span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="exam-q">
+          <div class="q-text">Q. A company claims average bulb life = 500hrs (σ=50). Sample n=36, x̄=520. Test at 5%. [10]</div>
+          <div class="q-hint">→ Z-test (n=36 ≥ 30, σ known). Z = (520−500)/(50/6) = 2.4 > 1.96. Reject H₀.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. Three machines M1(30%,2%), M2(40%,3%), M3(30%,5%). A defective is found. P(from M1)? [8]</div>
+          <div class="q-hint">→ Bayes' theorem. Find P(D), then P(M1|D) = P(D|M1)P(M1)/P(D).</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. A die is thrown 60 times. Test if die is fair using Chi-Square. [10]</div>
+          <div class="q-hint">→ E = 10 each. χ² = Σ(O−E)²/E. df=5. Compare with 11.07 at 5%.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. Test 3 teaching methods: A=[10,12,14], B=[20,22,24], C=[30,32,34]. ANOVA at α=0.05. [12]</div>
+          <div class="q-hint">→ Compute SSB, SSW, MSB, MSW, F-ratio. Compare with F-critical.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. Explain Normal Distribution and the 68-95-99.7 rule with example. [5]</div>
+          <div class="q-hint">→ Bell curve, symmetry, mean=median=mode, empirical rule with μ and σ example.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ MODULE 4 ════════════ -->
+  <section class="module-section" id="m4">
+    <div class="section-hero" style="--hero-a:#10b981;--hero-b:#047857;">
+      <div class="mod-label" style="color:#6ee7b7;">Module 4</div>
+      <h2>Analytics Theory & Methods</h2>
+      <p>Attributes, Cosine Similarity, K-Means Clustering, Hierarchical Clustering, Association Rules, Missing Data.</p>
+    </div>
+
+    <!-- Attributes -->
+    <div id="m4-attrs" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🏷️</span><h3>Attribute Value & Classification</h3>
+        <span class="tag tag-exam">Exam Paper Q2(b)</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Attribute:</strong> A property or characteristic of an object. Each column in a dataset is an attribute (also called feature/variable).
+          <br><strong>Attribute Value:</strong> A specific measurement/label for an attribute in a data instance.
+        </div>
+        <table class="data-table">
+          <tr><th>Attribute Type</th><th>Description</th><th>Operations</th><th>Example</th></tr>
+          <tr><td><span class="hl-blue">Nominal</span></td><td>Labels, no order</td><td>=, ≠</td><td>Color, Gender, Country</td></tr>
+          <tr><td><span class="hl-blue">Ordinal</span></td><td>Ordered, no equal spacing</td><td>&lt;, &gt;</td><td>Size(S/M/L), Rank, Rating</td></tr>
+          <tr><td><span class="hl-green">Interval</span></td><td>Equal spacing, no true zero</td><td>+, −</td><td>Temperature (°C), Year</td></tr>
+          <tr><td><span class="hl-green">Ratio</span></td><td>Equal spacing + true zero</td><td>+, −, ×, ÷</td><td>Height, Weight, Age, Income</td></tr>
+        </table>
+        <div class="note-box">You can calculate mean on Interval/Ratio. NOT on Nominal/Ordinal. Remember: Nominal &amp; Ordinal = Qualitative; Interval &amp; Ratio = Quantitative.</div>
+        <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.DataFrame({
+    <span class="st">'Gender'</span>: [<span class="st">'M'</span>,<span class="st">'F'</span>,<span class="st">'M'</span>],       <span class="cm"># Nominal</span>
+    <span class="st">'Grade'</span>: [<span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'A+'</span>],     <span class="cm"># Ordinal</span>
+    <span class="st">'Temp'</span>: [<span class="num">36.5</span>,<span class="num">37.2</span>,<span class="num">36.8</span>],    <span class="cm"># Interval</span>
+    <span class="st">'Height'</span>: [<span class="num">165</span>,<span class="num">172</span>,<span class="num">158</span>]     <span class="cm"># Ratio</span>
+})
+<span class="kw">print</span>(df.dtypes)   <span class="cm"># object, object, float64, int64</span></pre>
+      </div>
+    </div>
+
+    <!-- Cosine Similarity -->
+    <div id="m4-cosine" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📐</span><h3>Cosine Similarity</h3>
+        <span class="tag tag-exam">Exam Paper Q2(a)</span>
+        <span class="tag tag-formula">Formula</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Cosine Similarity</strong> measures the cosine of the angle between two vectors. It ranges from −1 to 1 (for non-negative data: 0 to 1). Used to measure how similar two documents/data points are regardless of magnitude.
+        </div>
+        <div class="formula-box">
+          <div class="formula-title">Formula</div>
+          cos(θ) = (A · B) / (||A|| × ||B||)<br><br>
+          Where:  A · B = Σ Aᵢ × Bᵢ   (dot product)<br>
+                  ||A|| = √(Σ Aᵢ²)     (magnitude of A)<br>
+                  ||B|| = √(Σ Bᵢ²)     (magnitude of B)<br><br>
+          Result: 1 = identical direction | 0 = perpendicular | -1 = opposite
+        </div>
+        <div class="solved-example">
+          <div class="ex-title">✦ Solved Example</div>
+          <p style="font-size:13px;margin-bottom:8px;">A = [1, 2, 3], B = [2, 3, 4]</p>
+          <div class="step"><div class="step-num">1</div><div class="step-content">A·B = 1×2 + 2×3 + 3×4 = 2+6+12 = <strong>20</strong></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content">||A|| = √(1+4+9) = √14 = 3.742</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content">||B|| = √(4+9+16) = √29 = 5.385</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content">cos(θ) = 20 / (3.742 × 5.385) = 20 / 20.154 = <span class="hl-green">0.992</span> (very similar!)</div></div>
+        </div>
+        <div class="def-box">
+          <strong>Application:</strong> NLP/text similarity — TF-IDF vectors compared using cosine similarity. Two identical documents → 1. Completely different → ~0.
+        </div>
+      </div>
+    </div>
+
+    <!-- K-Means -->
+    <div id="m4-kmeans" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🎯</span><h3>K-Means Clustering</h3>
+        <span class="tag tag-exam">Exam Paper Q1(a)</span>
+        <span class="tag tag-python">Python</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>K-Means Clustering</strong> is an unsupervised machine learning algorithm that partitions n data points into k clusters, where each data point belongs to the cluster with the nearest mean (centroid).
+        </div>
+
+        <h4 style="color:var(--accent4);margin:16px 0 10px;">Steps of K-Means Algorithm</h4>
+        <div class="solved-example">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Choose K</strong> — decide the number of clusters.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Initialize Centroids</strong> — randomly select K points as initial centroids.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Assign Points</strong> — assign each data point to the nearest centroid (using Euclidean distance: d = √Σ(xᵢ−cᵢ)²).</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Recompute Centroids</strong> — compute new centroid as mean of all points in each cluster.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-content"><strong>Repeat</strong> steps 3–4 until centroids stop changing (convergence) or max iterations reached.</div></div>
+        </div>
+
+        <div class="two-col" style="margin-top:14px;">
+          <div class="mini-card">
+            <h4 style="color:var(--accent4);">Advantages</h4>
+            <ul class="bullet-list">
+              <li>Simple and easy to implement</li>
+              <li>Scales to large datasets</li>
+              <li>Fast convergence</li>
+              <li>Works well for spherical clusters</li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent6);">Disadvantages</h4>
+            <ul class="bullet-list">
+              <li>Must specify K in advance</li>
+              <li>Sensitive to initial centroid placement</li>
+              <li>Affected by outliers</li>
+              <li>Only finds convex/spherical clusters</li>
+            </ul>
+          </div>
+        </div>
+
+        <pre><span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># Sample data</span>
+X = np.<span class="fn">array</span>([[<span class="num">1</span>,<span class="num">2</span>],[<span class="num">1</span>,<span class="num">4</span>],[<span class="num">1</span>,<span class="num">0</span>],[<span class="num">10</span>,<span class="num">2</span>],[<span class="num">10</span>,<span class="num">4</span>],[<span class="num">10</span>,<span class="num">0</span>]])
+
+<span class="cm"># Create K-Means with K=2</span>
+kmeans = KMeans(n_clusters=<span class="num">2</span>, random_state=<span class="num">0</span>)
+kmeans.<span class="fn">fit</span>(X)
+
+<span class="kw">print</span>(<span class="st">"Labels:"</span>, kmeans.labels_)         <span class="cm"># cluster assignment</span>
+<span class="kw">print</span>(<span class="st">"Centroids:"</span>, kmeans.cluster_centers_)
+
+<span class="cm"># Plot</span>
+plt.<span class="fn">scatter</span>(X[:,<span class="num">0</span>], X[:,<span class="num">1</span>], c=kmeans.labels_, cmap=<span class="st">'viridis'</span>)
+plt.<span class="fn">scatter</span>(kmeans.cluster_centers_[:,<span class="num">0</span>],
+            kmeans.cluster_centers_[:,<span class="num">1</span>], s=<span class="num">200</span>, c=<span class="st">'red'</span>, marker=<span class="st">'X'</span>)
+plt.<span class="fn">show</span>()</pre>
+
+        <div class="note-box">The Elbow Method is used to find optimal K: plot inertia (WCSS) vs K and look for the "elbow" point.</div>
+      </div>
+    </div>
+
+    <!-- Hierarchical Clustering -->
+    <div id="m4-hierarchical" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🌳</span><h3>Hierarchical Clustering & Dendrogram</h3>
+        <span class="tag tag-exam">Exam Paper Q3(b)</span>
+        <span class="tag tag-numerical">Full Solution</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Hierarchical Clustering</strong> builds a tree of clusters (dendrogram). No need to specify K in advance.<br>
+          <strong>Agglomerative:</strong> Bottom-up — start with each point as its own cluster, merge closest pairs.<br>
+          <strong>Divisive:</strong> Top-down — start with one cluster, split recursively.
+        </div>
+
+        <h4 style="color:var(--accent4);margin:16px 0 10px;">Linkage Methods</h4>
+        <div class="three-col">
+          <div class="mini-card">
+            <h4 style="color:var(--accent2);">Single Linkage</h4>
+            <p>Distance = minimum distance between any two points in the clusters.</p>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent3);">Complete Linkage</h4>
+            <p>Distance = <strong>maximum</strong> distance between any two points in clusters. (Used in Q3(b)!)</p>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent4);">Average Linkage</h4>
+            <p>Distance = average of all pairwise distances between clusters.</p>
+          </div>
+        </div>
+
+        <div class="solved-example" style="margin-top:16px;">
+          <div class="ex-title">★ EXAM Q3(b) SOLVED — Complete Linkage Hierarchical Clustering</div>
+          <p style="font-size:13px;margin-bottom:8px;">Distance matrix (Table 1): A,B,C,D,E</p>
+          <table class="data-table">
+            <tr><th>Item</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+            <tr><td>A</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>B</td><td>9</td><td>0</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>C</td><td>3</td><td>7</td><td>0</td><td>—</td><td>—</td></tr>
+            <tr><td>D</td><td>6</td><td>5</td><td>9</td><td>0</td><td>—</td></tr>
+            <tr><td>E</td><td>11</td><td>10</td><td>2</td><td>8</td><td>0</td></tr>
+          </table>
+
+          <div class="step" style="margin-top:12px;"><div class="step-num">1</div>
+          <div class="step-content"><strong>Find smallest distance:</strong> C-E = 2 → Merge C and E into {C,E}</div></div>
+
+          <div class="step"><div class="step-num">2</div>
+          <div class="step-content"><strong>Update distances for {C,E} using Complete Linkage (take MAX):</strong><br>
+            d({C,E}, A) = max(3,11) = 11<br>
+            d({C,E}, B) = max(7,10) = 10<br>
+            d({C,E}, D) = max(9,8) = 9
+          </div></div>
+
+          <div class="step"><div class="step-num">3</div>
+          <div class="step-content"><strong>New matrix (A,B,{C,E},D). Smallest: A-C(old)→ now find min:</strong><br>
+            A-B=9, A-{C,E}=11, A-D=6, B-{C,E}=10, B-D=5, {C,E}-D=9<br>
+            Minimum = B-D = 5 → Merge B and D into {B,D}
+          </div></div>
+
+          <div class="step"><div class="step-num">4</div>
+          <div class="step-content"><strong>Update for {B,D}:</strong><br>
+            d({B,D}, A) = max(9,6) = 9<br>
+            d({B,D}, {C,E}) = max(10,9) = 10
+          </div></div>
+
+          <div class="step"><div class="step-num">5</div>
+          <div class="step-content"><strong>Matrix: A, {B,D}, {C,E}.</strong> Min: A-{B,D}=9 → Merge A,B,D into {A,B,D}</div></div>
+
+          <div class="step"><div class="step-num">6</div>
+          <div class="step-content"><strong>Final merge:</strong> {A,B,D} and {C,E}: d = max(11,10,9) = 11 → All merged at distance 11</div></div>
+
+          <div style="margin-top:16px;padding:14px;background:#0a1a12;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6ee7b7;">
+            Dendrogram (text representation):<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;━━━━━━━━━━━━━━━━━━━ 11<br>
+            &nbsp;&nbsp;&nbsp;━━━━━━━━━━━ 9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;━━━ 2<br>
+            ━━━ 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;E<br>
+            B&nbsp;&nbsp;&nbsp;D<br>
+          </div>
+        </div>
+
+        <pre><span class="kw">from</span> scipy.cluster.hierarchy <span class="kw">import</span> dendrogram, linkage
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Distance matrix as condensed form (A,B,C,D,E)</span>
+<span class="cm"># Using scipy linkage on raw data points</span>
+X = np.<span class="fn">array</span>([[<span class="num">0</span>],[<span class="num">9</span>],[<span class="num">3</span>],[<span class="num">6</span>],[<span class="num">11</span>]])  <span class="cm"># simplified 1D</span>
+
+Z = <span class="fn">linkage</span>(X, method=<span class="st">'complete'</span>)
+<span class="fn">dendrogram</span>(Z, labels=[<span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span>,<span class="st">'D'</span>,<span class="st">'E'</span>])
+plt.<span class="fn">title</span>(<span class="st">'Complete Linkage Dendrogram'</span>)
+plt.<span class="fn">show</span>()</pre>
+      </div>
+    </div>
+
+    <!-- Association Rules -->
+    <div id="m4-association" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🛒</span><h3>Association Rule Mining (Apriori)</h3>
+        <span class="tag tag-exam">Exam Paper Q4(a)</span>
+        <span class="tag tag-numerical">Full Solution</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Association Rule Mining</strong> finds interesting relationships/patterns between items in large transactional databases. The classic algorithm is <strong>Apriori</strong>.
+        </div>
+        <div class="formula-box">
+          <div class="formula-title">Key Metrics</div>
+          Support(X)       = (Transactions containing X) / (Total transactions)<br>
+          Confidence(X→Y) = Support(X ∪ Y) / Support(X)<br>
+          Lift(X→Y)        = Confidence(X→Y) / Support(Y)<br><br>
+          Lift > 1 → positive association  |  Lift = 1 → independent  |  Lift &lt; 1 → negative
+        </div>
+
+        <div class="solved-example">
+          <div class="ex-title">★ EXAM Q4(a) FULLY SOLVED — Min Support=50%, Min Confidence=75%</div>
+          <p style="font-size:13px;margin-bottom:8px;">5 Transactions: T1={Bread,Cheese,Egg,Juice}, T2={Bread,Cheese,Juice}, T3={Bread,Milk,Yogurt}, T4={Bread,Juice,Milk}, T5={Cheese,Juice,Milk}</p>
+          <div style="background:#061018;border-radius:8px;padding:12px;margin:10px 0;">
+            <p style="font-size:12px;color:var(--accent5);font-weight:700;margin-bottom:8px;">Min Support = 50% → min 3 out of 5 transactions (if using 50% of 5 = 2.5 → 3)</p>
+            <p style="font-size:12px;color:var(--text-muted);">Note: If min_support = 50 (count), use count 50. Here total = 5, so 50% = 2.5 → need ≥ 3. But question says "minimum support 50" — interpret as count. Let's use count ≥ 2 (40%) → this is commonly set problem-dependent. We'll use ≥ 3 for 50%.</p>
+          </div>
+          <div class="step"><div class="step-num">1</div>
+          <div class="step-content"><strong>Item Counts (1-itemsets):</strong><br>
+            Bread:4, Cheese:3, Egg:1, Juice:4, Milk:3, Yogurt:1<br>
+            Remove Egg(1) and Yogurt(1) — below support threshold.<br>
+            <strong>Frequent 1-itemsets:</strong> Bread(4), Cheese(3), Juice(4), Milk(3)
+          </div></div>
+
+          <div class="step"><div class="step-num">2</div>
+          <div class="step-content"><strong>2-itemset counts:</strong><br>
+            {Bread,Cheese}: T1,T2 = 2 ✗<br>
+            {Bread,Juice}: T1,T2,T4 = 3 ✓<br>
+            {Bread,Milk}: T3,T4 = 2 ✗<br>
+            {Cheese,Juice}: T1,T2,T5 = 3 ✓<br>
+            {Cheese,Milk}: T5 = 1 ✗<br>
+            {Juice,Milk}: T4,T5 = 2 ✗<br>
+            <strong>Frequent 2-itemsets:</strong> {Bread,Juice}(3), {Cheese,Juice}(3)
+          </div></div>
+
+          <div class="step"><div class="step-num">3</div>
+          <div class="step-content"><strong>Generate Association Rules (min confidence 75%):</strong><br>
+            <br>From {Bread,Juice}(3):<br>
+            Bread→Juice: Conf = 3/4 = 75% ✓<br>
+            Juice→Bread: Conf = 3/4 = 75% ✓<br>
+            <br>From {Cheese,Juice}(3):<br>
+            Cheese→Juice: Conf = 3/3 = 100% ✓<br>
+            Juice→Cheese: Conf = 3/4 = 75% ✓
+          </div></div>
+
+          <div class="step"><div class="step-num">4</div>
+          <div class="step-content"><strong>Final Rules:</strong><br>
+            ① Bread → Juice [Sup=60%, Conf=75%]<br>
+            ② Juice → Bread [Sup=60%, Conf=75%]<br>
+            ③ Cheese → Juice [Sup=60%, Conf=100%]<br>
+            ④ Juice → Cheese [Sup=60%, Conf=75%]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Missing Data -->
+    <div id="m4-missing" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>❓</span><h3>Handling Missing Data</h3>
+        <span class="tag tag-exam">Exam Paper Q4(b)</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <table class="data-table">
+          <tr><th>Technique</th><th>Description</th><th>Example / When to Use</th></tr>
+          <tr><td><span class="hl-green">Deletion (Listwise)</span></td><td>Remove rows/columns with missing values</td><td>When % missing is small (&lt;5%). Simple but loses data.</td></tr>
+          <tr><td><span class="hl-blue">Mean Imputation</span></td><td>Replace missing with mean of column</td><td>Numerical data, normal distribution. Reduces variance.</td></tr>
+          <tr><td><span class="hl-blue">Median Imputation</span></td><td>Replace with median</td><td>Skewed data or with outliers. More robust.</td></tr>
+          <tr><td><span class="hl-blue">Mode Imputation</span></td><td>Replace with mode</td><td>Categorical/nominal data.</td></tr>
+          <tr><td><span class="hl-purple">KNN Imputation</span></td><td>Use K nearest neighbors to estimate</td><td>Better for correlated features.</td></tr>
+          <tr><td><span class="hl-purple">Regression Imputation</span></td><td>Predict missing from other columns</td><td>When relationship between columns exists.</td></tr>
+          <tr><td><span class="hl">Multiple Imputation</span></td><td>Create multiple complete datasets, combine</td><td>Research-grade, preserves uncertainty.</td></tr>
+        </table>
+        <pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+df = pd.DataFrame({<span class="st">'Age'</span>: [<span class="num">25</span>,np.nan,<span class="num">30</span>,np.nan,<span class="num">35</span>],
+                   <span class="st">'Score'</span>: [<span class="num">80</span>,<span class="num">90</span>,np.nan,<span class="num">85</span>,<span class="num">95</span>]})
+
+<span class="cm"># 1. Deletion</span>
+df_drop = df.<span class="fn">dropna</span>()
+
+<span class="cm"># 2. Mean Imputation</span>
+df[<span class="st">'Age'</span>] = df[<span class="st">'Age'</span>].<span class="fn">fillna</span>(df[<span class="st">'Age'</span>].<span class="fn">mean</span>())
+
+<span class="cm"># 3. Median Imputation</span>
+df[<span class="st">'Score'</span>] = df[<span class="st">'Score'</span>].<span class="fn">fillna</span>(df[<span class="st">'Score'</span>].<span class="fn">median</span>())
+
+<span class="cm"># 4. Forward Fill</span>
+df.<span class="fn">fillna</span>(method=<span class="st">'ffill'</span>, inplace=<span class="num">True</span>)</pre>
+      </div>
+    </div>
+
+    <!-- Module 4 Exam -->
+    <div id="m4-exam" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📝</span><h3>Likely Exam Questions — Module 4 (20 marks)</h3>
+        <span class="tag tag-exam">Exam Prep</span><span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="exam-q">
+          <div class="q-text">Q1(a). What is K-Means clustering? Write its steps. How can it be implemented in Python? [1+3+6]</div>
+          <div class="q-hint">→ Definition (1m) + 5 steps (3m) + sklearn Python code with scatter plot (6m)</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q2(a). What is Cosine Similarity? Explain with formula. [2+8]</div>
+          <div class="q-hint">→ Definition, formula, solved numerical with two vectors step by step</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q2(b). Define attribute value. Write classification of attributes with example + Python. [1+4+5]</div>
+          <div class="q-hint">→ Definition + Nominal/Ordinal/Interval/Ratio table + Python DataFrame example</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q3(b). Evaluate and plot a dendrogram using Complete Linkage for Table 1. [15]</div>
+          <div class="q-hint">→ Show full distance matrix updates at each step. Final merges: (C,E)@2, (B,D)@5, ({A,B,D})@9, all@11</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q4(a). Apply Apriori to Table 2. Min support=50%, confidence=75%. Find association rules. [12]</div>
+          <div class="q-hint">→ Count items, prune below support, generate candidate itemsets, calculate confidence. Show all rules.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q4(b). Discuss techniques to handle missing data with examples for each. [8]</div>
+          <div class="q-hint">→ Deletion, Mean/Median/Mode imputation, KNN, Regression — one paragraph each + Python code</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ MODULE 5 ════════════ -->
+  <section class="module-section" id="m5">
+    <div class="section-hero" style="--hero-a:#f59e0b;--hero-b:#d97706;">
+      <div class="mod-label" style="color:#fcd34d;">Module 5</div>
+      <h2>Tools for Big Data Analytics</h2>
+      <p>Hadoop, HDFS, MapReduce, HBase, Hive, NoSQL Databases, Apache Spark, Python Analytics.</p>
+    </div>
+
+    <!-- Hadoop -->
+    <div id="m5-hadoop" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🐘</span><h3>Hadoop Ecosystem</h3>
+        <span class="tag tag-concept">Theory</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Apache Hadoop</strong> is an open-source framework for distributed storage and processing of large datasets across clusters of computers using simple programming models.
+        </div>
+        <div class="two-col" style="margin-top:14px;">
+          <div class="mini-card" style="border-top:3px solid var(--accent5);">
+            <h4 style="color:var(--accent5);">HDFS — Hadoop Distributed File System</h4>
+            <ul class="bullet-list">
+              <li><strong>NameNode</strong> — master, stores metadata (file locations)</li>
+              <li><strong>DataNode</strong> — workers, store actual data blocks</li>
+              <li>Default block size: 128MB</li>
+              <li>Replication factor: 3 (fault tolerance)</li>
+              <li>Write-once, read-many model</li>
+              <li>Designed for large files, sequential reads</li>
+            </ul>
+          </div>
+          <div class="mini-card" style="border-top:3px solid var(--accent4);">
+            <h4 style="color:var(--accent4);">MapReduce</h4>
+            <ul class="bullet-list">
+              <li><strong>Map Phase</strong>: Process input → emit (key,value) pairs</li>
+              <li><strong>Shuffle &amp; Sort</strong>: Group by key</li>
+              <li><strong>Reduce Phase</strong>: Aggregate values per key</li>
+              <li>Example: Word Count — Map outputs (word,1), Reduce sums counts</li>
+              <li>Parallel processing across cluster nodes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="two-col" style="margin-top:14px;">
+          <div class="mini-card">
+            <h4 style="color:var(--accent3);">HBase</h4>
+            <p>NoSQL database on top of HDFS. Column-oriented. Used for sparse data with billions of rows. Real-time read/write access. Like Google Bigtable.</p>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent2);">Hive</h4>
+            <p>Data warehouse system. Uses HiveQL (SQL-like). Converts SQL queries to MapReduce jobs. Best for batch processing, not real-time. Schema-on-read.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NoSQL -->
+    <div id="m5-nosql" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>🗃️</span><h3>NoSQL Databases</h3>
+        <span class="tag tag-concept">Theory</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <table class="data-table">
+          <tr><th>Type</th><th>Description</th><th>Example DBs</th><th>Use Case</th></tr>
+          <tr><td><span class="hl-blue">Document</span></td><td>JSON/BSON documents</td><td>MongoDB, CouchDB</td><td>Content management, catalogs</td></tr>
+          <tr><td><span class="hl-green">Key-Value</span></td><td>Simple key:value pairs</td><td>Redis, DynamoDB</td><td>Caching, sessions, leaderboards</td></tr>
+          <tr><td><span class="hl-purple">Column-Family</span></td><td>Columns grouped into families</td><td>HBase, Cassandra</td><td>Time-series, IoT, wide tables</td></tr>
+          <tr><td><span class="hl">Graph</span></td><td>Nodes, edges, properties</td><td>Neo4j, OrientDB</td><td>Social networks, fraud detection</td></tr>
+        </table>
+        <div class="vs-table" style="margin-top:14px;">
+          <div class="vs-side">
+            <h4 style="color:var(--accent1);">SQL (Relational)</h4>
+            <ul class="bullet-list">
+              <li>Fixed schema</li>
+              <li>ACID transactions</li>
+              <li>Vertical scaling</li>
+              <li>JOIN operations</li>
+              <li>Best for structured data</li>
+            </ul>
+          </div>
+          <div class="vs-side">
+            <h4 style="color:var(--accent4);">NoSQL</h4>
+            <ul class="bullet-list">
+              <li>Flexible schema</li>
+              <li>BASE (eventual consistency)</li>
+              <li>Horizontal scaling</li>
+              <li>No JOINs (embedded docs)</li>
+              <li>Best for unstructured/semi-structured</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spark -->
+    <div id="m5-spark" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>⚡</span><h3>Apache Spark</h3>
+        <span class="tag tag-concept">Theory</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="def-box">
+          <strong>Apache Spark</strong> is a unified analytics engine for large-scale data processing. It is <strong>100× faster than Hadoop MapReduce</strong> for in-memory processing and 10× faster for disk operations.
+        </div>
+        <div class="three-col">
+          <div class="mini-card"><h4 style="color:var(--accent5);">RDD</h4><p>Resilient Distributed Dataset — core Spark abstraction. Immutable, fault-tolerant, parallelizable.</p></div>
+          <div class="mini-card"><h4 style="color:var(--accent4);">Spark SQL</h4><p>SQL interface for structured data. Uses DataFrames and Datasets.</p></div>
+          <div class="mini-card"><h4 style="color:var(--accent3);">MLlib</h4><p>Machine learning library — classification, regression, clustering, collaborative filtering.</p></div>
+        </div>
+        <table class="data-table" style="margin-top:14px;">
+          <tr><th>Feature</th><th>Hadoop MapReduce</th><th>Apache Spark</th></tr>
+          <tr><td>Speed</td><td>Disk-based, slow</td><td>In-memory, ~100× faster</td></tr>
+          <tr><td>Processing</td><td>Batch only</td><td>Batch + Stream + Interactive</td></tr>
+          <tr><td>Language</td><td>Java mainly</td><td>Scala, Python, Java, R</td></tr>
+          <tr><td>Ease of use</td><td>Complex</td><td>High-level APIs</td></tr>
+          <tr><td>ML Support</td><td>Limited</td><td>MLlib built-in</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Module 5 Exam -->
+    <div id="m5-exam" class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📝</span><h3>Likely Exam Questions — Module 5 (20 marks)</h3>
+        <span class="tag tag-exam">Exam Prep</span><span class="toggle-icon">▾</span>
+      </div>
+      <div class="card-body open">
+        <div class="exam-q">
+          <div class="q-text">Q. Explain the Hadoop Ecosystem. What is HDFS? Differentiate NameNode and DataNode. [10]</div>
+          <div class="q-hint">→ Hadoop overview + HDFS architecture + NameNode(metadata/master) vs DataNode(data/worker)</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. What is MapReduce? Explain Map and Reduce phases with a Word Count example. [10]</div>
+          <div class="q-hint">→ Diagram with Input→Map→Shuffle&Sort→Reduce→Output. Show word count key-value pairs.</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. Compare SQL and NoSQL databases. Explain the types of NoSQL databases with examples. [10]</div>
+          <div class="q-hint">→ Comparison table + 4 types (Document/Key-Value/Column/Graph) + examples</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. What is Apache Spark? How is it different from Hadoop MapReduce? Explain RDD. [10]</div>
+          <div class="q-hint">→ Definition, in-memory processing, comparison table, RDD properties</div>
+        </div>
+        <div class="exam-q">
+          <div class="q-text">Q. What is HBase? How does it differ from traditional RDBMS? Explain Hive. [8]</div>
+          <div class="q-hint">→ HBase = column-oriented NoSQL on HDFS. Hive = SQL-like data warehouse on Hadoop. Compare with RDBMS.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Navigation
+function showModule(id, btn) {
+  document.querySelectorAll('.module-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-module-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Toggle sub-nav
+  const subId = 'sub-' + id;
+  document.querySelectorAll('.nav-sub').forEach(s => { if (s.id !== subId) s.classList.remove('open'); });
+  const sub = document.getElementById(subId);
+  if (sub) sub.classList.toggle('open');
+  // Update topbar
+  const titles = {
+    'm1': 'Module 1 — Introduction to Data Analytics',
+    'm2': 'Module 2 — Statistical Analysis',
+    'm3': 'Module 3 — Probabilistic Analysis',
+    'm4': 'Module 4 — Analytics Theory & Methods',
+    'm5': 'Module 5 — Tools for Big Data Analytics'
+  };
+  document.getElementById('topbar-title').textContent = titles[id];
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Card toggle
+function toggleCard(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// Scroll to anchor within module
+function scrollTo2(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    // Open card if collapsed
+    const header = el.querySelector('.card-header');
+    if (header && !header.classList.contains('open')) {
+      header.classList.add('open');
+      header.nextElementSibling.classList.add('open');
+    }
+    setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 100);
+  }
+  return false;
+}
+
+// Open all cards in current module by default
+document.querySelectorAll('.card-header').forEach(h => {
+  h.classList.add('open');
+  h.nextElementSibling.classList.add('open');
+});
+</script>
+</body>
+</html>
